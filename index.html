@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>CRM Kumasindo</title>
+<meta name="theme-color" content="#C43E08">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CRM Kumasindo">
+<meta name="application-name" content="CRM Kumasindo">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --or:#F05A1A;--or-d:#C43E08;--or-l:#FFF3EC;--or-b:#FFCBAE;
+  --ch:#1C1E26;--ch2:#3A3D4A;
+  --grn:#16A34A;--grn-l:#F0FDF4;--grn-b:#BBF7D0;
+  --amb:#D97706;--amb-l:#FFFBEB;--amb-b:#FDE68A;
+  --red:#DC2626;--red-l:#FEF2F2;--red-b:#FECACA;
+  --blu:#1D4ED8;--blu-l:#EFF6FF;--blu-b:#BFDBFE;
+  --gry:#6B7280;--gry-l:#F9FAFB;--gry-b:#E5E7EB;
+  --bg:#FAF8F6;--card:#FFFFFF;--card2:#F7F4F1;
+  --txt:#1C1E26;--txt2:#3A3D4A;--mut:#8A8D98;--bdr:#EAE6E1;
+  --shd:0 1px 6px rgba(0,0,0,.06);--shd2:0 4px 20px rgba(0,0,0,.12);
+  --r:14px;--font:'Poppins',-apple-system,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--txt);min-height:100vh;-webkit-tap-highlight-color:transparent}
+input,select,textarea,button{font-family:var(--font)}
+
+/* ── LOGIN (sama kayak Tab 1) ── */
+.login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.login-logo{width:76px;height:76px;border-radius:22px;background:linear-gradient(135deg,var(--or),var(--or-d));display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 10px 26px rgba(196,62,8,.35)}
+.login-logo span{font-size:26px;font-weight:900;color:#fff}
+.login-title{font-size:20px;font-weight:800;color:var(--ch);margin-bottom:4px}
+.login-sub{font-size:12.5px;color:var(--mut);margin-bottom:28px;text-align:center;line-height:1.6}
+.pic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:340px;margin-bottom:20px}
+.pic-btn{padding:16px 10px;border-radius:var(--r);border:1.5px solid var(--bdr);background:var(--card);cursor:pointer;text-align:center;transition:all .15s}
+.pic-btn:active{transform:scale(.96)}
+.pic-btn.active{border-color:var(--or);background:var(--or-l)}
+.pic-btn-name{font-size:13px;font-weight:700;color:var(--ch)}
+.pin-pad{width:100%;max-width:280px}
+.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:22px}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--bdr);transition:all .15s}
+.pin-dot.filled{background:var(--or);border-color:var(--or)}
+.pin-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pin-key{aspect-ratio:1;border-radius:16px;border:1.5px solid var(--bdr);background:var(--card);font-size:20px;font-weight:700;color:var(--ch);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pin-key:active{transform:scale(.92);background:var(--or-l)}
+.pin-key.empty{border:none;background:none;cursor:default}
+.login-err{color:var(--red);font-size:12px;font-weight:600;text-align:center;margin-top:14px;min-height:16px}
+
+/* ── TOPBAR ── */
+.topbar{background:linear-gradient(135deg,var(--or),var(--or-d));padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:var(--shd2)}
+.topbar-inner{max-width:720px;margin:0 auto}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.topbar-title{font-size:14px;font-weight:800;color:#fff}
+.topbar-sub{font-size:10.5px;color:rgba(255,255,255,.75);font-weight:500}
+.icon-btn{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.topbar-r{display:flex;gap:7px}
+.search-row{display:flex;gap:8px}
+.search-inp{flex:1;padding:10px 13px;border-radius:10px;border:none;font-size:13px;background:rgba(255,255,255,.95);color:var(--ch);outline:none}
+.filter-btn{width:40px;border-radius:10px;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:15px;cursor:pointer;position:relative}
+.filter-badge{position:absolute;top:-4px;right:-4px;background:var(--ch);color:#fff;font-size:9px;font-weight:800;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center}
+
+/* ── LAYOUT ── */
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 40px}
+.result-count{font-size:11.5px;color:var(--mut);font-weight:600;margin-bottom:10px}
+.chip-filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip-filter{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:14px;background:var(--or-l);color:var(--or-d);font-size:10.5px;font-weight:700}
+.chip-filter button{background:none;border:none;color:var(--or-d);font-size:12px;cursor:pointer;padding:0;line-height:1}
+
+/* ── CUSTOMER CARD ── */
+.cust-card{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:var(--shd);border:1px solid var(--bdr);margin-bottom:10px;cursor:pointer;transition:all .15s}
+.cust-card:active{transform:scale(.98)}
+.cust-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px}
+.cust-name{font-size:14.5px;font-weight:700;color:var(--ch)}
+.cust-wa{font-size:11px;color:var(--mut);margin-top:2px}
+.cust-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px}
+.badge-pipeline{background:var(--blu-l);color:var(--blu)}
+.badge-kategori{background:var(--gry-l);color:var(--ch2);border:1px solid var(--bdr)}
+.badge-status-akan{background:var(--blu-l);color:var(--blu)}
+.badge-status-hari{background:var(--amb-l);color:var(--amb)}
+.badge-status-terlambat{background:var(--red-l);color:var(--red)}
+.badge-status-selesai{background:var(--grn-l);color:var(--grn)}
+.badge-status-tidak{background:var(--gry-l);color:var(--mut)}
+.cust-foot{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(--mut)}
+.cust-empty{text-align:center;padding:50px 20px;color:var(--mut)}
+.cust-empty-ico{font-size:38px;margin-bottom:10px}
+
+/* ── KANBAN BOARD ── */
+.section-title{font-size:12.5px;font-weight:800;color:var(--ch);text-transform:uppercase;letter-spacing:.04em;margin:16px 0 10px}
+.kanban-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;-webkit-overflow-scrolling:touch}
+.kanban-col{flex:0 0 240px;background:var(--card2);border-radius:var(--r);padding:10px;border:1px solid var(--bdr)}
+.kanban-col-head{font-size:11px;font-weight:800;color:var(--ch2);text-transform:uppercase;letter-spacing:.02em;padding:4px 6px 10px;display:flex;justify-content:space-between;align-items:center}
+.kanban-count{background:var(--bdr);color:var(--ch2);font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px}
+.kanban-col-body{display:flex;flex-direction:column;gap:8px;min-height:40px}
+.kanban-empty{font-size:10.5px;color:var(--mut);text-align:center;padding:18px 8px}
+.kanban-card{background:var(--card);border-radius:10px;padding:10px 11px;box-shadow:var(--shd);border:1px solid var(--bdr);cursor:pointer}
+.kanban-card:active{transform:scale(.97)}
+.kanban-card-name{font-size:12.5px;font-weight:700;color:var(--ch);margin-bottom:5px}
+.kanban-card-fu{font-size:10px;font-weight:600;color:var(--amb);background:var(--amb-l);border-radius:6px;padding:3px 7px;display:inline-block;margin-bottom:6px}
+.kanban-card-fu.late{color:var(--red);background:var(--red-l)}
+.kanban-card-foot{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--mut)}
+.kanban-card-foot button{background:var(--card2);border:1px solid var(--bdr);border-radius:6px;width:24px;height:24px;font-size:11px;cursor:pointer}
+
+/* ── OVERLAY / SHEET (generic, dipakai filter/detail/aksi) ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(28,30,38,.5);z-index:300;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.overlay.top{align-items:stretch}
+.sheet{background:var(--bg);width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:0;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column}
+.overlay.top .sheet{border-radius:0;max-height:none;height:100%}
+.sheet-header{position:sticky;top:0;background:var(--card);padding:16px 18px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;z-index:2}
+.sheet-title{font-size:15px;font-weight:800;color:var(--ch)}
+.sheet-close{width:30px;height:30px;border-radius:8px;border:none;background:var(--card2);font-size:15px;cursor:pointer;color:var(--ch2)}
+.sheet-body{padding:16px 18px 24px}
+
+/* Filter sheet */
+.filter-group{margin-bottom:18px}
+.filter-group-title{font-size:11px;font-weight:800;color:var(--ch);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
+.filter-chip-row{display:flex;gap:6px;flex-wrap:wrap}
+.filter-chip{padding:7px 12px;border-radius:16px;border:1.5px solid var(--bdr);background:var(--card);font-size:11.5px;font-weight:600;color:var(--txt2);cursor:pointer}
+.filter-chip.active{border-color:var(--or);background:var(--or-l);color:var(--or-d)}
+.finp{width:100%;padding:10px 13px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;color:var(--txt);background:var(--card);outline:none}
+.btn-primary{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--or),var(--or-d));color:#fff;font-size:13.5px;font-weight:700;cursor:pointer}
+.btn-outline{width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--bdr);background:var(--card);color:var(--txt);font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+
+/* Detail panel */
+.detail-section{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid var(--bdr)}
+.detail-section-title{font-size:11px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.03em;margin-bottom:10px}
+.detail-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--bdr)}
+.detail-row:last-child{border-bottom:none}
+.detail-row-label{color:var(--mut);flex-shrink:0}
+.detail-row-val{color:var(--txt);font-weight:600;text-align:right}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.action-btn{padding:11px 8px;border-radius:10px;border:1.5px solid var(--bdr);background:var(--card);font-size:11.5px;font-weight:700;color:var(--txt2);cursor:pointer;text-align:center}
+.action-btn.wa{background:var(--grn-l);border-color:var(--grn-b);color:var(--grn)}
+.action-btn.danger{background:var(--red-l);border-color:var(--red-b);color:var(--red)}
+.timeline-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--bdr)}
+.timeline-item:last-child{border-bottom:none}
+.timeline-dot{width:8px;height:8px;border-radius:50%;background:var(--or);margin-top:5px;flex-shrink:0}
+.timeline-body{flex:1;font-size:12px}
+.timeline-date{color:var(--mut);font-size:10.5px;margin-bottom:2px}
+.timeline-title{font-weight:700;color:var(--ch)}
+.timeline-desc{color:var(--txt2);margin-top:2px;line-height:1.5}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ch);color:#fff;padding:13px 20px;border-radius:12px;font-size:12.5px;font-weight:600;box-shadow:var(--shd2);z-index:999;max-width:90vw;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.show{opacity:1}
+.fhint{font-size:10.5px;color:var(--mut);margin-top:5px;line-height:1.5}
+.fg{margin-bottom:14px}
+.flbl{font-size:12px;font-weight:700;color:var(--ch);margin-bottom:6px;display:block}
+
+
+/* ── SUMMARY CARDS ── */
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:520px){.summary-grid{grid-template-columns:repeat(4,1fr)}}
+.summary-card{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:var(--shd);border:1px solid var(--bdr);border-left:3px solid var(--or)}
+.summary-card.warn{border-left-color:var(--red)}
+.summary-val{font-size:24px;font-weight:800;color:var(--ch);line-height:1}
+.summary-lbl{font-size:10.5px;color:var(--mut);font-weight:600;margin-top:5px}
+
+/* ── FORM ── */
+.card{background:var(--card);border-radius:var(--r);padding:18px;box-shadow:var(--shd);border:1px solid var(--bdr);margin-bottom:14px}
+.fg{margin-bottom:16px}
+.fg:last-child{margin-bottom:0}
+.flbl{font-size:12px;font-weight:700;color:var(--ch);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.flbl .req{color:var(--red)}
+.finp{width:100%;padding:11px 13px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;color:var(--txt);background:var(--card);outline:none;transition:border-color .15s}
+.finp:focus{border-color:var(--or)}
+textarea.finp{resize:vertical;min-height:80px;line-height:1.6}
+.fhint{font-size:10.5px;color:var(--mut);margin-top:5px;line-height:1.5}
+.fgrid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+.btn-choice-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-choice{padding:10px 16px;border-radius:20px;border:1.5px solid var(--bdr);background:var(--card);font-size:12.5px;font-weight:600;color:var(--txt2);cursor:pointer;transition:all .15s}
+.btn-choice.active{border-color:var(--or);background:var(--or);color:#fff}
+.btn-choice:disabled{opacity:.4;cursor:not-allowed}
+
+.tag-group{margin-bottom:12px}
+.tag-group:last-child{margin-bottom:0}
+.tag-group-title{font-size:10.5px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.03em;margin-bottom:7px}
+.tag-chip-row{display:flex;gap:7px;flex-wrap:wrap}
+.tag-chip{padding:7px 12px;border-radius:16px;border:1.5px solid var(--bdr);background:var(--card2);font-size:11.5px;font-weight:600;color:var(--txt2);cursor:pointer;transition:all .15s}
+.tag-chip.active{border-color:var(--or);background:var(--or-l);color:var(--or-d)}
+
+.dup-warn{background:var(--amb-l);border:1.5px solid var(--amb-b);border-radius:10px;padding:12px 14px;font-size:12px;color:#92400E;line-height:1.6;margin-top:8px}
+.dup-warn b{color:#78350F}
+
+.btn-submit{width:100%;padding:15px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--or),var(--or-d));color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(196,62,8,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn-submit.done{background:var(--grn)}
+
+.spinner{width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ch);color:#fff;padding:13px 20px;border-radius:12px;font-size:12.5px;font-weight:600;box-shadow:var(--shd2);z-index:999;max-width:90vw;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* Settings / Cloud Backup panel */
+.settings-overlay{display:none;position:fixed;inset:0;background:rgba(28,30,38,.5);z-index:200;align-items:flex-end;justify-content:center}
+.settings-overlay.show{display:flex}
+.settings-sheet{background:var(--bg);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:20px;max-height:80vh;overflow-y:auto}
+.settings-sheet-title{font-size:15px;font-weight:800;color:var(--ch);margin-bottom:14px}
+.cloud-status{border-radius:10px;padding:11px 13px;font-size:11.5px;line-height:1.6;margin-bottom:12px}
+.cloud-status.ok{background:var(--grn-l);border:1px solid var(--grn-b);color:#166534}
+.cloud-status.warn{background:var(--amb-l);border:1px solid var(--amb-b);color:#92400E}
+.btn-secondary{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--bdr);background:var(--card);font-size:12.5px;font-weight:600;color:var(--txt);cursor:pointer;margin-bottom:8px}
+.btn-secondary:last-child{margin-bottom:0}
+
+
+/* ── REKAP TABLE ── */
+.rk-table{width:100%;border-collapse:collapse;font-size:12px}
+.rk-table th{text-align:left;font-size:10px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.02em;padding:6px 8px;border-bottom:2px solid var(--bdr)}
+.rk-table td{padding:8px;border-bottom:1px solid var(--bdr);color:var(--txt2)}
+.rk-table tr:last-child td{border-bottom:none}
+.rk-table td.num, .rk-table th.num{text-align:right;font-variant-numeric:tabular-nums}
+.rk-table tr.total-row td{font-weight:800;color:var(--ch);border-top:2px solid var(--bdr)}
+
+/* ── NAVIGASI (sidebar desktop / bottom-nav mobile) ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bdr);display:flex;z-index:250;box-shadow:0 -4px 16px rgba(0,0,0,.07);padding-bottom:env(safe-area-inset-bottom)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.nav-ico{font-size:19px;opacity:.45}
+.nav-lbl{font-size:9px;font-weight:700;letter-spacing:.02em;color:var(--mut)}
+.nav-btn.active .nav-ico{opacity:1}
+.nav-btn.active .nav-lbl{color:var(--or-d)}
+body{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+
+.sidebar{display:none}
+@media(min-width:900px){
+  body{max-width:none;margin:0;padding-bottom:0;padding-left:224px}
+  .topbar-inner, .wrap{max-width:760px;margin:0 auto}
+  .bottom-nav{display:none !important}
+  .sidebar{
+    display:flex;flex-direction:column;gap:2px;
+    position:fixed;left:0;top:0;bottom:0;width:224px;
+    background:var(--ch);padding:24px 14px;z-index:260;
+    box-shadow:2px 0 20px rgba(0,0,0,.15);
+  }
+  .sidebar-brand{display:flex;align-items:center;gap:10px;padding:0 8px;margin-bottom:22px}
+  .sidebar-brand-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--or),var(--or-d));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff}
+  .sidebar-brand-text{font-size:13px;font-weight:800;color:#fff}
+  .side-btn{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;border:none;background:none;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:600;color:rgba(255,255,255,.55);text-align:left;transition:all .15s}
+  .side-btn:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+  .side-btn.active{background:rgba(240,90,26,.18);color:#FF8A50}
+  .side-ico{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+  .side-pic{margin-top:auto;padding:12px 10px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.5)}
+}
+</style>
+</head>
+<body>
+<!-- LOGIN -->
+<div class="login-wrap" id="screen-login">
+  <div class="login-logo"><span>CRM</span></div>
+  <div class="login-title">CRM Kumasindo</div>
+  <div class="login-sub">Dashboard Input Konsumen<br>Pilih nama, lalu masukkan PIN</div>
+
+  <div class="pic-grid" id="picGrid"></div>
+
+  <div class="pin-pad" id="pinPad" style="display:none">
+    <div class="pin-dots" id="pinDots"></div>
+    <div class="pin-keys" id="pinKeys"></div>
+  </div>
+  <div class="login-err" id="loginErr"></div>
+</div>
+
+<!-- SIDEBAR (desktop) -->
+<nav class="sidebar" id="sidebar" style="display:none">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-logo">CRM</div>
+    <div class="sidebar-brand-text">CRM Kumasindo</div>
+  </div>
+  <button class="side-btn active" id="side-input" onclick="goTo('input')"><span class="side-ico">📝</span>Input Konsumen</button>
+  <button class="side-btn" id="side-database" onclick="goTo('database')"><span class="side-ico">🗂️</span>Database Konsumen</button>
+  <button class="side-btn" id="side-pipeline" onclick="goTo('pipeline')"><span class="side-ico">🧭</span>Pipeline &amp; FU</button>
+  <button class="side-btn" id="side-rekap" onclick="goTo('rekap')"><span class="side-ico">📊</span>Rekap Kinerja</button>
+  <button class="side-btn" id="side-settings" onclick="openSettings()"><span class="side-ico">☁️</span>Cloud Backup</button>
+  <div style="flex:1"></div>
+  <div class="side-pic" id="sidePicLabel">—</div>
+  <button class="side-btn" onclick="logout()"><span class="side-ico">⏻</span>Keluar</button>
+</nav>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav" id="bottomNav" style="display:none">
+  <button class="nav-btn active" id="nav-input" onclick="goTo('input')">
+    <span class="nav-ico">📝</span><span class="nav-lbl">Input</span>
+  </button>
+  <button class="nav-btn" id="nav-database" onclick="goTo('database')">
+    <span class="nav-ico">🗂️</span><span class="nav-lbl">Database</span>
+  </button>
+  <button class="nav-btn" id="nav-pipeline" onclick="goTo('pipeline')">
+    <span class="nav-ico">🧭</span><span class="nav-lbl">Pipeline</span>
+  </button>
+  <button class="nav-btn" id="nav-rekap" onclick="goTo('rekap')">
+    <span class="nav-ico">📊</span><span class="nav-lbl">Rekap</span>
+  </button>
+</nav>
+
+<!-- MAIN APP -->
+<div id="tab-input" class="tab-page">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-brand">
+        <div class="topbar-logo">CRM</div>
+        <div>
+          <div class="topbar-title">CRM Kumasindo</div>
+          <div class="topbar-sub" id="picLabel">—</div>
+        </div>
+      </div>
+      <div class="topbar-r">
+        <button class="icon-btn" onclick="openSettings()" title="Cloud Backup">☁️</button>
+        <button class="icon-btn" onclick="logout()" title="Keluar">⏻</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <div class="section-title">Ringkasan Hari Ini</div>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-val" id="sInputHariIni">—</div>
+        <div class="summary-lbl">Input Hari Ini</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-val" id="sFuHariIni">—</div>
+        <div class="summary-lbl">FU Hari Ini</div>
+      </div>
+      <div class="summary-card warn">
+        <div class="summary-val" id="sFuTerlambat">—</div>
+        <div class="summary-lbl">FU Terlambat</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-val" id="sClosingHariIni">—</div>
+        <div class="summary-lbl">Closing Hari Ini</div>
+      </div>
+    </div>
+
+    <div class="section-title">Input Konsumen Baru</div>
+    <form id="crmForm" onsubmit="return false">
+
+      <div class="card">
+        <div class="fg">
+          <div class="flbl">Nama Konsumen <span class="req">*</span></div>
+          <input class="finp" type="text" id="f-nama" placeholder="Contoh: Pak Budi" required>
+        </div>
+        <div class="fg">
+          <div class="flbl">Nomor WhatsApp <span class="req">*</span></div>
+          <input class="finp" type="tel" id="f-wa" placeholder="Contoh: 081234567890" required>
+          <div id="dupWarnBox"></div>
+        </div>
+        <div class="fg">
+          <div class="flbl">Sumber Lead <span class="req">*</span></div>
+          <select class="finp" id="f-sumber">
+            <option value="">— Pilih sumber lead —</option>
+            <option>Meta Ads</option><option>Instagram</option><option>Facebook</option>
+            <option>TikTok</option><option>Google</option><option>Referral</option>
+            <option>Pelanggan lama</option><option>Datang langsung</option><option>Lainnya</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="flbl" style="margin-bottom:12px">Alamat <span style="font-weight:400;color:var(--mut);font-size:11px">(opsional di tahap ini)</span></div>
+        <div class="fgrid2" style="margin-bottom:10px">
+          <div class="fg" style="margin-bottom:0">
+            <div class="flbl">Kabupaten</div>
+            <input class="finp" type="text" id="f-kabupaten" placeholder="Ngawi">
+          </div>
+          <div class="fg" style="margin-bottom:0">
+            <div class="flbl">Kecamatan</div>
+            <input class="finp" type="text" id="f-kecamatan" placeholder="Geneng">
+          </div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <div class="flbl">Alamat Singkat</div>
+          <input class="finp" type="text" id="f-alamat" placeholder="Desa Klitik">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="fg">
+          <div class="flbl">Pipeline <span class="req">*</span></div>
+          <div class="btn-choice-row" id="pipelineRow">
+            <button type="button" class="btn-choice" data-val="Awareness" onclick="selectPipeline('Awareness')">Awareness</button>
+            <button type="button" class="btn-choice" data-val="Consideration" onclick="selectPipeline('Consideration')">Consideration</button>
+          </div>
+        </div>
+        <div class="fg" id="kategoriWrap" style="display:none">
+          <div class="flbl">Kategori <span class="req">*</span></div>
+          <div class="btn-choice-row" id="kategoriRow"></div>
+        </div>
+        <div class="fg" id="alasanNoTargetWrap" style="display:none;margin-bottom:0">
+          <div class="flbl">Alasan No Target</div>
+          <select class="finp" id="f-alasan-no-target">
+            <option value="">— Pilih alasan —</option>
+            <option>Di luar area layanan</option><option>Hanya mencari material</option>
+            <option>Bukan kebutuhan Kumasindo</option><option>Salah nomor</option>
+            <option>Nomor tidak valid</option><option>Anggaran tidak sesuai</option>
+            <option>Permintaan tidak dilayani</option><option>Lainnya</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="flbl" style="margin-bottom:12px">Tagging <span style="font-weight:400;color:var(--mut);font-size:11px">(boleh pilih lebih dari satu)</span></div>
+        <div class="tag-group">
+          <div class="tag-group-title">Jenis Kebutuhan</div>
+          <div class="tag-chip-row" data-group="jenis">
+            <button type="button" class="tag-chip" data-val="Plafon PVC">Plafon PVC</button>
+            <button type="button" class="tag-chip" data-val="Plafon gypsum">Plafon gypsum</button>
+            <button type="button" class="tag-chip" data-val="Renovasi plafon">Renovasi plafon</button>
+            <button type="button" class="tag-chip" data-val="Plafon rumah baru">Plafon rumah baru</button>
+            <button type="button" class="tag-chip" data-val="Backdrop">Backdrop</button>
+            <button type="button" class="tag-chip" data-val="Wall moulding">Wall moulding</button>
+            <button type="button" class="tag-chip" data-val="Partisi">Partisi</button>
+            <button type="button" class="tag-chip" data-val="Jasa pasang saja">Jasa pasang saja</button>
+          </div>
+        </div>
+        <div class="tag-group">
+          <div class="tag-group-title">Tingkat Lead</div>
+          <div class="tag-chip-row" data-group="tingkat">
+            <button type="button" class="tag-chip" data-val="Hot Lead">🔥 Hot Lead</button>
+            <button type="button" class="tag-chip" data-val="Warm Lead">🌤️ Warm Lead</button>
+            <button type="button" class="tag-chip" data-val="Cold Lead">❄️ Cold Lead</button>
+          </div>
+        </div>
+        <div class="tag-group">
+          <div class="tag-group-title">Kondisi Konsumen</div>
+          <div class="tag-chip-row" data-group="kondisi">
+            <button type="button" class="tag-chip" data-val="Menunggu keluarga">Menunggu keluarga</button>
+            <button type="button" class="tag-chip" data-val="Menunggu rumah siap">Menunggu rumah siap</button>
+            <button type="button" class="tag-chip" data-val="Di luar kota">Di luar kota</button>
+            <button type="button" class="tag-chip" data-val="Banding harga">Banding harga</button>
+            <button type="button" class="tag-chip" data-val="Sudah kirim ukuran">Sudah kirim ukuran</button>
+            <button type="button" class="tag-chip" data-val="Sudah kirim foto">Sudah kirim foto</button>
+            <button type="button" class="tag-chip" data-val="Sudah mendapat estimasi">Sudah mendapat estimasi</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="fg">
+          <div class="flbl">Note</div>
+          <textarea class="finp" id="f-note" placeholder="Kebutuhan:&#10;Lokasi:&#10;Ukuran:&#10;Hasil komunikasi:&#10;Kendala:&#10;Tindak lanjut:"></textarea>
+          <div class="fhint">Boleh pakai format lengkap di atas, atau ringkas langsung — misal "PVC ruang tamu 4×6 m. Sudah estimasi. Menunggu keputusan suami."</div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <div class="flbl">PIC</div>
+          <select class="finp" id="f-pic"></select>
+          <div class="fhint">Otomatis terisi dari akun yang login. Bisa diganti kalau perlu (misal input-kan supervisor).</div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-submit" id="btnSubmit" onclick="submitForm()">
+        💾 Simpan Konsumen
+      </button>
+    </form>
+
+  </div>
+</div>
+
+
+<!-- MAIN APP -->
+<div id="tab-database" class="tab-page" style="display:none">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-row">
+        <div class="topbar-title">Database Konsumen</div>
+        <div class="topbar-r">
+          <button class="icon-btn" onclick="loadAllData(true)" title="Refresh">🔄</button>
+        </div>
+      </div>
+      <div class="search-row">
+        <input class="search-inp" id="searchInp" placeholder="Cari nama atau nomor WA..." oninput="applyFilters()">
+        <button class="filter-btn" onclick="openFilterSheet()">⚙️<span class="filter-badge" id="filterBadge" style="display:none">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="chip-filter-row" id="activeFilterChips"></div>
+    <div class="result-count" id="resultCountDb">Memuat data...</div>
+    <div id="custList"></div>
+  </div>
+</div>
+
+
+<!-- MAIN APP -->
+<div id="tab-pipeline" class="tab-page" style="display:none">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-row" style="margin-bottom:0">
+        <div class="topbar-title">Pipeline dan Follow-up</div>
+        <div class="topbar-r">
+          <button class="icon-btn" onclick="loadAllData(true)" title="Refresh">🔄</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" id="mainWrap">
+    <div class="result-count" id="resultCountPipeline">Memuat data...</div>
+    <div id="fuTodaySection"></div>
+    <div id="kanbanBoard"></div>
+  </div>
+</div>
+
+
+<!-- MAIN APP -->
+<div id="tab-rekap" class="tab-page" style="display:none">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-row" style="margin-bottom:10px">
+        <div class="topbar-title">Rekap Kinerja</div>
+        <div class="topbar-r">
+          <button class="icon-btn" onclick="loadAllData(true)" title="Refresh">🔄</button>
+        </div>
+      </div>
+      <div class="search-row">
+        <select class="finp" id="rkPeriode" style="flex:1;background:rgba(255,255,255,.95)" onchange="onRekapPeriodeChange()">
+          <option value="harian">Harian (Hari Ini)</option>
+          <option value="mingguan" selected>Mingguan (7 Hari Terakhir)</option>
+          <option value="bulanan">Bulanan (Bulan Ini)</option>
+          <option value="tahunan">Tahunan (Tahun Ini)</option>
+          <option value="custom">Rentang Tanggal Khusus...</option>
+        </select>
+        <button class="filter-btn" onclick="openRekapFilterSheet()">⚙️<span class="filter-badge" id="rkFilterBadge" style="display:none">0</span></button>
+      </div>
+      <div class="search-row" id="rkCustomDateRow" style="display:none;margin-top:8px">
+        <input class="finp" type="date" id="rkDateFrom" style="background:rgba(255,255,255,.95)">
+        <input class="finp" type="date" id="rkDateTo" style="background:rgba(255,255,255,.95)">
+        <button class="icon-btn" onclick="renderRekap()" title="Terapkan">✓</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="chip-filter-row" id="rkActiveChips"></div>
+    <div class="result-count" id="rkPeriodLabel">Memuat data...</div>
+
+    <!-- A. RINGKASAN UTAMA -->
+    <div class="section-title">A. Ringkasan Utama</div>
+    <div class="summary-grid" style="margin-bottom:8px">
+      <div class="summary-card"><div class="summary-val" id="rkTotalLead">—</div><div class="summary-lbl">Total Lead Masuk</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkTotalAwareness">—</div><div class="summary-lbl">Total Awareness</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkTotalConsideration">—</div><div class="summary-lbl">Total Consideration</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkTotalClosing">—</div><div class="summary-lbl">Total Closing</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkTotalNoTarget">—</div><div class="summary-lbl">Total No Target</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkTotalArsip">—</div><div class="summary-lbl">Total Konsumen Arsip</div></div>
+    </div>
+    <div class="fhint" style="margin-bottom:14px">"Total Lead Masuk" dihitung sesuai periode yang dipilih. Kartu lainnya (Awareness–Arsip) nunjukin kondisi <b>saat ini</b> di seluruh database, gak kefilter periode — biar keliatan kesehatan pipeline secara keseluruhan.</div>
+
+    <div class="summary-grid" style="margin-bottom:20px">
+      <div class="summary-card"><div class="summary-val" id="rkFuHariIni">—</div><div class="summary-lbl">FU Hari Ini</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkFuDikerjakan">—</div><div class="summary-lbl">FU Dikerjakan</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkFuTepatWaktu">—</div><div class="summary-lbl">FU Tepat Waktu</div></div>
+      <div class="summary-card warn"><div class="summary-val" id="rkFuTerlambat">—</div><div class="summary-lbl">FU Terlambat</div></div>
+      <div class="summary-card"><div class="summary-val" id="rkFuBelum">—</div><div class="summary-lbl">FU Belum Dikerjakan</div></div>
+    </div>
+
+    <!-- B. REKAP PIPELINE -->
+    <div class="section-title">B. Rekap Pipeline (Kondisi Saat Ini)</div>
+    <div class="card" style="margin-bottom:20px">
+      <div class="detail-section-title">Awareness</div>
+      <table class="rk-table" id="rkPipelineAwareness"></table>
+      <div class="detail-section-title" style="margin-top:16px">Consideration</div>
+      <table class="rk-table" id="rkPipelineConsideration"></table>
+    </div>
+
+    <!-- C. REKAP PERPINDAHAN PIPELINE -->
+    <div class="section-title">C. Rekap Perpindahan Pipeline</div>
+    <div class="card" style="margin-bottom:20px">
+      <div id="rkPerpindahan"></div>
+      <div class="detail-section-title" style="margin-top:14px">Conversion Rate</div>
+      <div class="detail-row"><span class="detail-row-label">Awareness → Consideration</span><span class="detail-row-val" id="rkConvAC">—</span></div>
+      <div class="detail-row"><span class="detail-row-label">Closing Rate</span><span class="detail-row-val" id="rkConvClosing">—</span></div>
+      <div class="fhint" style="margin-top:8px">Conversion Rate = jumlah perpindahan ÷ Total Lead Masuk periode ini. Formula asli di file lu hilang (kebaca #NAME? saat export), jadi ini rumus yang saya rancang berdasarkan definisi yang lu tulis.</div>
+    </div>
+
+    <!-- D. REKAP FOLLOW-UP -->
+    <div class="section-title">D. Rekap Follow-up</div>
+    <div class="card" style="margin-bottom:20px">
+      <table class="rk-table" id="rkFollowUpTable"></table>
+      <div class="fhint" style="margin-top:8px">Dijadwalkan = jumlah aktivitas FU pada tahap itu di periode ini (1 konsumen bisa masuk beberapa tahap kalau memang menjalani FU1→FU2→FU3 semua di periode yang sama).</div>
+    </div>
+
+    <!-- E. REKAP KINERJA PIC -->
+    <div class="section-title">E. Rekap Kinerja PIC</div>
+    <div class="card" style="margin-bottom:20px">
+      <table class="rk-table" id="rkPicTable"></table>
+    </div>
+
+    <!-- F. REKAP SUMBER LEAD -->
+    <div class="section-title">F. Rekap Sumber Lead</div>
+    <div class="card" style="margin-bottom:20px">
+      <table class="rk-table" id="rkSumberTable"></table>
+    </div>
+
+    <!-- G. REKAP ALASAN NO TARGET -->
+    <div class="section-title">G. Rekap Alasan No Target</div>
+    <div class="card" style="margin-bottom:20px">
+      <table class="rk-table" id="rkAlasanTable"></table>
+    </div>
+
+  </div>
+</div>
+
+<!-- REKAP FILTER SHEET -->
+<div class="overlay" id="rekapFilterOverlay" onclick="if(event.target===this)closeRekapFilterSheet()">
+  <div class="sheet">
+    <div class="sheet-header">
+      <div class="sheet-title">Filter Rekap</div>
+      <button class="sheet-close" onclick="closeRekapFilterSheet()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="filter-group">
+        <div class="filter-group-title">PIC</div>
+        <div class="filter-chip-row" id="rkFPic"></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Pipeline</div>
+        <div class="filter-chip-row" id="rkFPipeline">
+          <button type="button" class="filter-chip" data-val="Awareness">Awareness</button>
+          <button type="button" class="filter-chip" data-val="Consideration">Consideration</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Sumber Lead</div>
+        <div class="filter-chip-row" id="rkFSumber">
+          <button type="button" class="filter-chip" data-val="Meta Ads">Meta Ads</button>
+          <button type="button" class="filter-chip" data-val="Instagram">Instagram</button>
+          <button type="button" class="filter-chip" data-val="Facebook">Facebook</button>
+          <button type="button" class="filter-chip" data-val="TikTok">TikTok</button>
+          <button type="button" class="filter-chip" data-val="Google">Google</button>
+          <button type="button" class="filter-chip" data-val="Referral">Referral</button>
+          <button type="button" class="filter-chip" data-val="Pelanggan lama">Pelanggan lama</button>
+          <button type="button" class="filter-chip" data-val="Datang langsung">Datang langsung</button>
+          <button type="button" class="filter-chip" data-val="Lainnya">Lainnya</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Lokasi (Kabupaten)</div>
+        <div class="filter-chip-row" id="rkFLokasi"></div>
+      </div>
+      <button class="btn-primary" onclick="applyRekapFiltersAndClose()">Terapkan Filter</button>
+      <button class="btn-outline" onclick="clearRekapFilters()">Hapus Semua Filter</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS / CLOUD BACKUP -->
+<div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-sheet">
+    <div class="settings-sheet-title">☁️ Cloud Backup</div>
+    <div id="cloudStatusBox"></div>
+    <div class="fhint" style="margin-bottom:14px">Yang di-backup: draft input yang gagal terkirim ke Sheet (misal pas gak ada sinyal), biar gak hilang meski HP di-clear cache.</div>
+    <button class="btn-secondary" onclick="syncToCloud(true)">🔄 Sync Sekarang</button>
+    <button class="btn-secondary" onclick="restoreFromCloud(true)">⬇️ Pulihkan dari Cloud</button>
+    <button class="btn-secondary" onclick="closeSettings()">Tutup</button>
+  </div>
+</div>
+
+
+<!-- FILTER SHEET -->
+<div class="overlay" id="filterOverlay" onclick="if(event.target===this)closeFilterSheet()">
+  <div class="sheet">
+    <div class="sheet-header">
+      <div class="sheet-title">Filter Database</div>
+      <button class="sheet-close" onclick="closeFilterSheet()">✕</button>
+    </div>
+    <div class="sheet-body">
+
+      <div class="filter-group">
+        <div class="filter-group-title">Waktu Masuk</div>
+        <div class="filter-chip-row" id="fWaktu">
+          <button type="button" class="filter-chip" data-val="hari_ini">Hari ini</button>
+          <button type="button" class="filter-chip" data-val="kemarin">Kemarin</button>
+          <button type="button" class="filter-chip" data-val="minggu_ini">Minggu ini</button>
+          <button type="button" class="filter-chip" data-val="bulan_ini">Bulan ini</button>
+          <button type="button" class="filter-chip" data-val="tahun_ini">Tahun ini</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Pipeline</div>
+        <div class="filter-chip-row" id="fPipeline">
+          <button type="button" class="filter-chip" data-val="Awareness">Awareness</button>
+          <button type="button" class="filter-chip" data-val="Consideration">Consideration</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Kategori</div>
+        <div class="filter-chip-row" id="fKategori">
+          <button type="button" class="filter-chip" data-val="Menunggu Dana">Menunggu Dana</button>
+          <button type="button" class="filter-chip" data-val="Menunggu Kabar">Menunggu Kabar</button>
+          <button type="button" class="filter-chip" data-val="Respon">Respon</button>
+          <button type="button" class="filter-chip" data-val="Tidak Respon">Tidak Respon</button>
+          <button type="button" class="filter-chip" data-val="No Target">No Target</button>
+          <button type="button" class="filter-chip" data-val="Hitung Detail">Hitung Detail</button>
+          <button type="button" class="filter-chip" data-val="Validasi">Validasi</button>
+          <button type="button" class="filter-chip" data-val="Timing Belum Pas">Timing Belum Pas</button>
+          <button type="button" class="filter-chip" data-val="Closing">Closing</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Tahap Follow-up</div>
+        <div class="filter-chip-row" id="fTahapFU">
+          <button type="button" class="filter-chip" data-val="Follow-up 1">Follow-up 1</button>
+          <button type="button" class="filter-chip" data-val="Follow-up 2">Follow-up 2</button>
+          <button type="button" class="filter-chip" data-val="Follow-up 3">Follow-up 3</button>
+          <button type="button" class="filter-chip" data-val="Arsip">Arsip</button>
+          <button type="button" class="filter-chip" data-val="Tidak Berlaku">Tanpa follow-up</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Status Jadwal</div>
+        <div class="filter-chip-row" id="fStatusJadwal">
+          <button type="button" class="filter-chip" data-val="Akan Datang">Akan Datang</button>
+          <button type="button" class="filter-chip" data-val="Hari Ini">Hari Ini</button>
+          <button type="button" class="filter-chip" data-val="Terlambat">Terlambat</button>
+          <button type="button" class="filter-chip" data-val="Sudah Dikerjakan">Sudah Dikerjakan</button>
+          <button type="button" class="filter-chip" data-val="Tidak Berlaku">Tidak Berlaku</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">PIC</div>
+        <div class="filter-chip-row" id="fPic"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Sumber Lead</div>
+        <div class="filter-chip-row" id="fSumber">
+          <button type="button" class="filter-chip" data-val="Meta Ads">Meta Ads</button>
+          <button type="button" class="filter-chip" data-val="Instagram">Instagram</button>
+          <button type="button" class="filter-chip" data-val="Facebook">Facebook</button>
+          <button type="button" class="filter-chip" data-val="TikTok">TikTok</button>
+          <button type="button" class="filter-chip" data-val="Google">Google</button>
+          <button type="button" class="filter-chip" data-val="Referral">Referral</button>
+          <button type="button" class="filter-chip" data-val="Pelanggan lama">Pelanggan lama</button>
+          <button type="button" class="filter-chip" data-val="Datang langsung">Datang langsung</button>
+          <button type="button" class="filter-chip" data-val="Lainnya">Lainnya</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="applyFiltersAndClose()">Terapkan Filter</button>
+      <button class="btn-outline" onclick="clearFilters()">Hapus Semua Filter</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- DETAIL PANEL -->
+<div class="overlay top" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="sheet">
+    <div class="sheet-header">
+      <div class="sheet-title" id="detailTitle">Detail Konsumen</div>
+      <button class="sheet-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="sheet-body" id="detailBody"></div>
+  </div>
+</div>
+
+<!-- ACTION SHEET (Edit/Note/Pindah/SelesaikanFU/Closing/NoTarget — 1 kontainer dipakai bareng) -->
+<div class="overlay" id="actionOverlay" onclick="if(event.target===this)closeActionSheet()">
+  <div class="sheet">
+    <div class="sheet-header">
+      <div class="sheet-title" id="actionTitle">Aksi</div>
+      <button class="sheet-close" onclick="closeActionSheet()">✕</button>
+    </div>
+    <div class="sheet-body" id="actionBody"></div>
+  </div>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+// ══════════════════════════════════════════════════════
+// CONFIG — samain dengan Tab 1 (1 Sheet & 1 Apps Script yang sama)
+// ══════════════════════════════════════════════════════
+const CONFIG = {
+  apps_script_url: 'https://script.google.com/macros/s/AKfycbyEoPPv_2Z6QDebBbVX4uH8_5_-3EpT-sXgZY9uwHdWy-CFFsPSheUzkUKFL6A11673/exec',
+  token: 'crm',
+  sheet_id: '1GDtanWPUFFWceqe2z9YIyvxJny0-jrw7VggtEgnpiis',
+  sheet_konsumen: 'Konsumen',
+  sheet_fu: 'Follow-up',
+  sheet_riwayat: 'Riwayat Aktivitas',
+  pic_list: [
+    { id:'pic1', name:'Ical', pin:'1111' },
+    { id:'pic2', name:'Admin', pin:'2222' },
+  ],
+};
+
+function ls(k,d){ try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):d;}catch(e){return d;} }
+function ss(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg, dur=2600){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>el.classList.remove('show'), dur);
+}
+
+let S = { pic:null, pinBuffer:'' };
+let ALL_CUSTOMERS = [];
+let ALL_FU = [];
+let ALL_RIWAYAT = [];
+let ACTIVE_FILTERS = {};
+let CURRENT_DETAIL_ID = null;
+
+// ══════════════════════════════════════════════════════
+// LOGIN (identik polanya sama Tab 1)
+// ══════════════════════════════════════════════════════
+function renderPicGrid(){
+  document.getElementById('picGrid').innerHTML = CONFIG.pic_list.map(p=>`
+    <button type="button" class="pic-btn" id="pic-${p.id}" onclick="selectPic('${p.id}')">
+      <div class="pic-btn-name">${p.name}</div>
+    </button>`).join('');
+}
+function selectPic(id){
+  S.pic = CONFIG.pic_list.find(p=>p.id===id);
+  S.pinBuffer = '';
+  document.querySelectorAll('.pic-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pic-'+id).classList.add('active');
+  document.getElementById('pinPad').style.display = 'block';
+  document.getElementById('loginErr').textContent = '';
+  renderPinDots();
+}
+function renderPinKeys(){
+  const keys = ['1','2','3','4','5','6','7','8','9','','0','⌫'];
+  document.getElementById('pinKeys').innerHTML = keys.map(k=>{
+    if(k==='') return '<div class="pin-key empty"></div>';
+    if(k==='⌫') return `<button type="button" class="pin-key" onclick="pinBackspace()">⌫</button>`;
+    return `<button type="button" class="pin-key" onclick="pinPress('${k}')">${k}</button>`;
+  }).join('');
+}
+function renderPinDots(){
+  document.getElementById('pinDots').innerHTML = [0,1,2,3].map(i=>
+    `<div class="pin-dot ${i<S.pinBuffer.length?'filled':''}"></div>`).join('');
+}
+function pinPress(d){
+  if(S.pinBuffer.length>=4) return;
+  S.pinBuffer += d; renderPinDots();
+  if(S.pinBuffer.length===4) checkLogin();
+}
+function pinBackspace(){ S.pinBuffer = S.pinBuffer.slice(0,-1); renderPinDots(); document.getElementById('loginErr').textContent=''; }
+function checkLogin(){
+  if(!S.pic) return;
+  if(S.pinBuffer === S.pic.pin){
+    ss('crm_session', { pic_id:S.pic.id, ts:new Date().toISOString() });
+    enterMain();
+  } else {
+    document.getElementById('loginErr').textContent = 'PIN salah, coba lagi.';
+    S.pinBuffer = ''; renderPinDots();
+  }
+}
+function logout(){ if(!confirm('Yakin mau keluar?'))return; localStorage.removeItem('crm_session'); location.reload(); }
+
+function enterMain(){
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('sidebar').style.display = '';
+  document.getElementById('bottomNav').style.display = '';
+  document.getElementById('picLabel').textContent = S.pic.name;
+  document.getElementById('sidePicLabel').textContent = 'Login sebagai: '+S.pic.name;
+  populatePicFilter();
+  populatePicSelect();
+  renderCategoryOptions();
+  populateRekapPicFilter();
+  loadAllData(false);
+  checkAndRestoreOnBoot();
+}
+
+// ══════════════════════════════════════════════════════
+// GVIZ READ
+// ══════════════════════════════════════════════════════
+function gviz(sheetId, sheetName, range){
+  return new Promise((resolve,reject)=>{
+    const cb = 'gvizCb_'+Math.random().toString(36).slice(2);
+    const timeout = setTimeout(()=>{ cleanup(); reject(new Error('timeout')); }, 12000);
+    function cleanup(){ clearTimeout(timeout); delete window[cb]; if(sc.parentNode) sc.parentNode.removeChild(sc); }
+    window[cb] = (resp)=>{ cleanup(); resolve(resp && resp.table ? resp.table : {rows:[]}); };
+    const sc = document.createElement('script');
+    sc.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json;responseHandler:${cb}&sheet=${encodeURIComponent(sheetName)}&range=${range}&headers=0&cb=${Date.now()}`;
+    sc.onerror = ()=>{ cleanup(); reject(new Error('gagal load sheet')); };
+    document.head.appendChild(sc);
+  });
+}
+function isConfigured(){
+  return CONFIG.sheet_id && CONFIG.sheet_id.indexOf('GANTI_')!==0 &&
+         CONFIG.apps_script_url && CONFIG.apps_script_url.indexOf('GANTI_')!==0;
+}
+function gv(cell){ return cell ? cell.v : ''; }
+
+// Kolom Konsumen: 0 ID,1 TglMasuk,2 Nama,3 WA,4 Sumber,5 Kab,6 Kec,7 Alamat,
+// 8 Pipeline,9 Kategori,10 Tagging,11 TahapFU,12 TglFU,13 StatusFU(tersimpan),
+// 14 TglArsip,15 JmlArsip,16 Note,17 PIC,18 AlasanNoTarget,19 UpdateTerakhir
+function parseCustomerRow(c){
+  const tglFU = gv(c[12]) ? String(gv(c[12])) : '';
+  return {
+    id: gv(c[0]), tglMasuk: String(gv(c[1])), nama: gv(c[2]), wa: String(gv(c[3])),
+    sumber: gv(c[4]), kab: gv(c[5]), kec: gv(c[6]), alamat: gv(c[7]),
+    pipeline: gv(c[8]), kategori: gv(c[9]), tagging: gv(c[10]),
+    tahapFU: gv(c[11]), tglFU: tglFU, statusFU: computeStatusJadwal(tglFU, gv(c[11])),
+    tglArsip: gv(c[14]), jmlArsip: gv(c[15])||0, note: gv(c[16]), pic: gv(c[17]),
+    alasanNoTarget: gv(c[18]), updateTerakhir: gv(c[19]),
+  };
+}
+function computeStatusJadwal(tglFU, tahapFU){
+  if(tahapFU==='Selesai' || tahapFU==='Tidak Berlaku' || !tglFU) return 'Tidak Berlaku';
+  const today = todayStr();
+  if(tglFU===today) return 'Hari Ini';
+  if(tglFU<today) return 'Terlambat';
+  return 'Akan Datang';
+}
+function todayStr(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+async function loadAllData(manual){
+  if(!isConfigured()){
+    ['resultCountDb','resultCountPipeline'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='⚠️ Sheet belum terhubung.';});
+    return;
+  }
+  ['resultCountDb','resultCountPipeline'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='Memuat data...';});
+  try{
+    const [kT, fT, rT] = await Promise.all([
+      gviz(CONFIG.sheet_id, CONFIG.sheet_konsumen, 'A2:T'),
+      gviz(CONFIG.sheet_id, CONFIG.sheet_fu, 'A2:I'),
+      gviz(CONFIG.sheet_id, CONFIG.sheet_riwayat, 'A2:L'),
+    ]);
+    ALL_CUSTOMERS = (kT.rows||[]).map(r=>parseCustomerRow(r.c||[])).filter(c=>c.id);
+    ALL_FU = (fT.rows||[]).map(r=>{
+      const c = r.c||[];
+      return { id:gv(c[0]), customerId:gv(c[1]), tahapFU:gv(c[2]), tglJadwal:String(gv(c[3])),
+        tglDikerjakan:gv(c[4]), statusJadwal:gv(c[5]), hasil:gv(c[6]), note:gv(c[7]), pic:gv(c[8]) };
+    }).filter(f=>f.id);
+    ALL_RIWAYAT = (rT.rows||[]).map(r=>{
+      const c = r.c||[];
+      return { id:gv(c[0]), customerId:gv(c[1]), tanggal:gv(c[2]), jenis:gv(c[3]),
+        pipelineLama:gv(c[4]), kategoriLama:gv(c[5]), pipelineBaru:gv(c[6]), kategoriBaru:gv(c[7]),
+        tahapFU:gv(c[8]), hasil:gv(c[9]), note:gv(c[10]), pic:gv(c[11]) };
+    }).filter(h=>h.id);
+    applyFilters();
+    renderBoard();
+    loadSummary();
+    renderRekap();
+    if(manual) toast('✅ Data diperbarui.');
+  }catch(e){
+    ['resultCountDb','resultCountPipeline'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='❌ Gagal memuat data: '+e.message;});
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// FILTER SHEET
+// ══════════════════════════════════════════════════════
+function populatePicFilter(){
+  document.getElementById('fPic').innerHTML = CONFIG.pic_list.map(p=>
+    `<button type="button" class="filter-chip" data-val="${p.name}">${p.name}</button>`).join('');
+  wireFilterChips();
+}
+function wireFilterChips(){
+  document.querySelectorAll('.filter-chip').forEach(chip=>{
+    chip.onclick = ()=>chip.classList.toggle('active');
+  });
+}
+function openFilterSheet(){ document.getElementById('filterOverlay').classList.add('show'); }
+function closeFilterSheet(){ document.getElementById('filterOverlay').classList.remove('show'); }
+
+function collectFilterGroup(containerId){
+  return Array.from(document.querySelectorAll('#'+containerId+' .filter-chip.active')).map(c=>c.dataset.val);
+}
+function applyFiltersAndClose(){
+  ACTIVE_FILTERS = {
+    waktu: collectFilterGroup('fWaktu'),
+    pipeline: collectFilterGroup('fPipeline'),
+    kategori: collectFilterGroup('fKategori'),
+    tahapFU: collectFilterGroup('fTahapFU'),
+    statusJadwal: collectFilterGroup('fStatusJadwal'),
+    pic: collectFilterGroup('fPic'),
+    sumber: collectFilterGroup('fSumber'),
+  };
+  closeFilterSheet();
+  applyFilters();
+}
+function clearFilters(){
+  document.querySelectorAll('.filter-chip.active').forEach(c=>c.classList.remove('active'));
+  ACTIVE_FILTERS = {};
+  applyFilters();
+}
+function removeFilterChip(group, val){
+  ACTIVE_FILTERS[group] = (ACTIVE_FILTERS[group]||[]).filter(v=>v!==val);
+  document.querySelectorAll('.filter-chip.active').forEach(c=>{
+    if(c.dataset.val===val) c.classList.remove('active');
+  });
+  applyFilters();
+}
+function dateInRange(tglMasuk, waktuFilters){
+  if(!waktuFilters.length) return true;
+  const d = new Date(tglMasuk+'T00:00:00');
+  const now = new Date(); now.setHours(0,0,0,0);
+  return waktuFilters.some(w=>{
+    if(w==='hari_ini') return tglMasuk===todayStr();
+    if(w==='kemarin'){ const y=new Date(now); y.setDate(y.getDate()-1); return tglMasuk===y.toISOString().slice(0,10); }
+    if(w==='minggu_ini'){ const wk=new Date(now); wk.setDate(wk.getDate()-wk.getDay()); return d>=wk; }
+    if(w==='bulan_ini'){ return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); }
+    if(w==='tahun_ini'){ return d.getFullYear()===now.getFullYear(); }
+    return true;
+  });
+}
+function applyFilters(){
+  const q = document.getElementById('searchInp').value.trim().toLowerCase();
+  let list = ALL_CUSTOMERS.filter(c=>{
+    if(q && !(c.nama.toLowerCase().includes(q) || c.wa.includes(q))) return false;
+    if(ACTIVE_FILTERS.waktu && ACTIVE_FILTERS.waktu.length && !dateInRange(c.tglMasuk, ACTIVE_FILTERS.waktu)) return false;
+    if(ACTIVE_FILTERS.pipeline && ACTIVE_FILTERS.pipeline.length && !ACTIVE_FILTERS.pipeline.includes(c.pipeline)) return false;
+    if(ACTIVE_FILTERS.kategori && ACTIVE_FILTERS.kategori.length && !ACTIVE_FILTERS.kategori.includes(c.kategori)) return false;
+    if(ACTIVE_FILTERS.tahapFU && ACTIVE_FILTERS.tahapFU.length && !ACTIVE_FILTERS.tahapFU.includes(c.tahapFU)) return false;
+    if(ACTIVE_FILTERS.statusJadwal && ACTIVE_FILTERS.statusJadwal.length && !ACTIVE_FILTERS.statusJadwal.includes(c.statusFU)) return false;
+    if(ACTIVE_FILTERS.pic && ACTIVE_FILTERS.pic.length && !ACTIVE_FILTERS.pic.includes(c.pic)) return false;
+    if(ACTIVE_FILTERS.sumber && ACTIVE_FILTERS.sumber.length && !ACTIVE_FILTERS.sumber.includes(c.sumber)) return false;
+    return true;
+  });
+  list.sort((a,b)=> (b.updateTerakhir||'').localeCompare(a.updateTerakhir||''));
+  renderChips();
+  renderList(list);
+}
+function renderChips(){
+  const labels = { waktu:'Waktu', pipeline:'Pipeline', kategori:'Kategori', tahapFU:'Tahap FU', statusJadwal:'Status', pic:'PIC', sumber:'Sumber' };
+  let chips = [];
+  Object.keys(ACTIVE_FILTERS).forEach(g=>{
+    (ACTIVE_FILTERS[g]||[]).forEach(v=>{
+      chips.push(`<div class="chip-filter">${labels[g]}: ${esc(v)} <button onclick="removeFilterChip('${g}','${esc(v)}')">✕</button></div>`);
+    });
+  });
+  document.getElementById('activeFilterChips').innerHTML = chips.join('');
+  const totalActive = Object.values(ACTIVE_FILTERS).reduce((s,a)=>s+(a?a.length:0),0);
+  const badge = document.getElementById('filterBadge');
+  if(totalActive>0){ badge.style.display='flex'; badge.textContent=totalActive; } else { badge.style.display='none'; }
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER LIST
+// ══════════════════════════════════════════════════════
+function statusBadgeClass(status){
+  return { 'Akan Datang':'badge-status-akan','Hari Ini':'badge-status-hari','Terlambat':'badge-status-terlambat',
+    'Sudah Dikerjakan':'badge-status-selesai','Tidak Berlaku':'badge-status-tidak' }[status] || 'badge-status-tidak';
+}
+function renderList(list){
+  document.getElementById('resultCountDb').textContent = `${list.length} konsumen ditemukan`;
+  const el = document.getElementById('custList');
+  if(!list.length){
+    el.innerHTML = '<div class="cust-empty"><div class="cust-empty-ico">🔍</div>Gak ada konsumen yang cocok<br>dengan pencarian/filter ini.</div>';
+    return;
+  }
+  el.innerHTML = list.map(c=>`
+    <div class="cust-card" onclick="openDetail('${esc(c.id)}')">
+      <div class="cust-head">
+        <div>
+          <div class="cust-name">${esc(c.nama)}</div>
+          <div class="cust-wa">📱 ${esc(c.wa)}</div>
+        </div>
+      </div>
+      <div class="cust-badges">
+        <span class="badge badge-pipeline">${esc(c.pipeline)}</span>
+        <span class="badge badge-kategori">${esc(c.kategori)}</span>
+        ${c.tahapFU && c.tahapFU!=='Tidak Berlaku' ? `<span class="badge ${statusBadgeClass(c.statusFU)}">${esc(c.tahapFU)}${c.tglFU?' · '+fmtTglShort(c.tglFU):''}</span>` : ''}
+      </div>
+      <div class="cust-foot">
+        <span>PIC: ${esc(c.pic)}</span>
+        <span>${esc(c.id)}</span>
+      </div>
+    </div>`).join('');
+}
+function fmtTglShort(iso){
+  if(!iso) return '—';
+  const MO=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  const d = new Date(iso+'T00:00:00');
+  if(isNaN(d)) return iso;
+  return d.getDate()+' '+MO[d.getMonth()];
+}
+function fmtTglFull(iso){
+  if(!iso) return '—';
+  const MO=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const d = new Date(iso+'T00:00:00');
+  if(isNaN(d)) return iso;
+  return d.getDate()+' '+MO[d.getMonth()]+' '+d.getFullYear();
+}
+function fmtDateTimeFull(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  if(isNaN(d)) return iso;
+  const MO=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  return d.getDate()+' '+MO[d.getMonth()]+' '+d.getFullYear()+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+function waLink(wa){
+  let n = String(wa||'').replace(/\D/g,'');
+  if(n.startsWith('0')) n = '62'+n.slice(1);
+  return 'https://wa.me/'+n;
+}
+
+// ══════════════════════════════════════════════════════
+// DETAIL PANEL
+// ══════════════════════════════════════════════════════
+function getCustomer(id){ return ALL_CUSTOMERS.find(c=>c.id===id); }
+
+async function openDetail(id){
+  CURRENT_DETAIL_ID = id;
+  const c = getCustomer(id);
+  if(!c) return;
+  document.getElementById('detailTitle').textContent = c.nama;
+  document.getElementById('detailOverlay').classList.add('show');
+  // Riwayat udah ke-load bareng data lain (loadAllData) — gak perlu fetch ulang
+  const history = (ALL_RIWAYAT||[])
+    .filter(h=>h.customerId===id)
+    .sort((a,b)=>String(b.tanggal).localeCompare(String(a.tanggal)));
+  renderDetailBody(c, history);
+}
+function closeDetail(){ document.getElementById('detailOverlay').classList.remove('show'); CURRENT_DETAIL_ID=null; }
+
+function renderDetailBody(c, history){
+  const canSelesaikanFU = ['Follow-up 1','Follow-up 2','Follow-up 3','Arsip'].includes(c.tahapFU);
+  const el = document.getElementById('detailBody');
+  el.innerHTML = `
+    <div class="action-grid">
+      <a class="action-btn wa" href="${waLink(c.wa)}" target="_blank">💬 Chat WhatsApp</a>
+      <button type="button" class="action-btn" onclick="openEditData('${esc(c.id)}')">✏️ Edit Data</button>
+      <button type="button" class="action-btn" onclick="openAddNote('${esc(c.id)}')">📝 Tambah Note</button>
+      <button type="button" class="action-btn" onclick="openChangePipeline('${esc(c.id)}')">🔀 Ubah Pipeline/Kategori</button>
+      ${canSelesaikanFU ? `<button type="button" class="action-btn" onclick="openSelesaikanFU('${esc(c.id)}')" style="grid-column:1/-1;background:var(--or-l);border-color:var(--or-b);color:var(--or-d)">✅ Selesaikan ${esc(c.tahapFU)}</button>` : ''}
+      <button type="button" class="action-btn" onclick="openTandaiClosing('${esc(c.id)}')">🎯 Tandai Closing</button>
+      <button type="button" class="action-btn danger" onclick="openTandaiNoTarget('${esc(c.id)}')">🚫 Tandai No Target</button>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">A. Informasi Dasar</div>
+      <div class="detail-row"><span class="detail-row-label">Nama</span><span class="detail-row-val">${esc(c.nama)}</span></div>
+      <div class="detail-row"><span class="detail-row-label">No. WhatsApp</span><span class="detail-row-val">${esc(c.wa)}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Tanggal Masuk</span><span class="detail-row-val">${fmtTglFull(c.tglMasuk)}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Sumber Lead</span><span class="detail-row-val">${esc(c.sumber)}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Lokasi</span><span class="detail-row-val">${esc([c.kec,c.kab].filter(Boolean).join(', ')||'—')}</span></div>
+      <div class="detail-row"><span class="detail-row-label">PIC</span><span class="detail-row-val">${esc(c.pic)}</span></div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">B. Status Saat Ini</div>
+      <div class="detail-row"><span class="detail-row-label">Pipeline</span><span class="detail-row-val">${esc(c.pipeline)}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Kategori</span><span class="detail-row-val">${esc(c.kategori)}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Tahap Follow-up</span><span class="detail-row-val">${esc(c.tahapFU)||'—'}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Jadwal Follow-up</span><span class="detail-row-val">${c.tglFU?fmtTglFull(c.tglFU):'—'}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Status Jadwal</span><span class="detail-row-val">${esc(c.statusFU)}</span></div>
+      <div class="detail-row"><span class="detail-row-label">Tagging</span><span class="detail-row-val">${esc(c.tagging)||'—'}</span></div>
+      ${c.tahapFU==='Arsip' ? `<div class="detail-row"><span class="detail-row-label">Jumlah FU Arsip</span><span class="detail-row-val">${c.jmlArsip}x</span></div>` : ''}
+      ${c.kategori==='No Target' ? `<div class="detail-row"><span class="detail-row-label">Alasan No Target</span><span class="detail-row-val">${esc(c.alasanNoTarget)||'—'}</span></div>` : ''}
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">C. Note Terakhir</div>
+      <div style="font-size:12.5px;color:var(--txt2);line-height:1.7;white-space:pre-wrap">${esc(c.note)||'Belum ada catatan.'}</div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">D. Riwayat Aktivitas</div>
+      ${history.length ? history.map(h=>`
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-date">${fmtDateTimeFull(h.tanggal)} · ${esc(h.pic)}</div>
+            <div class="timeline-title">${esc(h.jenis)}</div>
+            ${h.pipelineBaru || h.kategoriBaru ? `<div class="timeline-desc">${esc(h.pipelineBaru)} — ${esc(h.kategoriBaru)}</div>` : ''}
+            ${h.note ? `<div class="timeline-desc">${esc(h.note)}</div>` : ''}
+          </div>
+        </div>`).join('') : '<div style="font-size:12px;color:var(--mut)">Memuat riwayat...</div>'}
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════════
+// ACTION SHEET — helpers umum
+// ══════════════════════════════════════════════════════
+function closeActionSheet(){ document.getElementById('actionOverlay').classList.remove('show'); }
+function openActionSheet(title, bodyHtml){
+  document.getElementById('actionTitle').textContent = title;
+  document.getElementById('actionBody').innerHTML = bodyHtml;
+  document.getElementById('actionOverlay').classList.add('show');
+}
+function addDaysStr(dateStr, days){
+  const d = new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()+days);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function addMonthsStr(dateStr, months){
+  const d = new Date(dateStr+'T00:00:00'); d.setMonth(d.getMonth()+months);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function findPendingFU(customerId, tahapFU){
+  return ALL_FU.find(f=>f.customerId===customerId && f.tahapFU===tahapFU && !f.tglDikerjakan);
+}
+async function sendUpdate(payload){
+  payload.action = 'update_customer';
+  payload.token = CONFIG.token;
+  payload.pic = S.pic.name;
+  const btn = document.getElementById('actionSubmitBtn');
+  if(btn){ btn.disabled=true; btn.textContent='Menyimpan...'; }
+  try{
+    const res = await fetch(CONFIG.apps_script_url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(r=>r.json());
+    if(res.status==='ok'){
+      toast('✅ Berhasil disimpan.');
+      closeActionSheet(); closeDetail();
+      loadAllData(false);
+    } else {
+      toast('❌ Gagal: '+(res.message||'unknown error'));
+      if(btn){ btn.disabled=false; btn.textContent='Simpan'; }
+    }
+  }catch(e){
+    toast('⚠️ Gagal konek ke server: '+e.message);
+    if(btn){ btn.disabled=false; btn.textContent='Simpan'; }
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// 1. EDIT DATA
+// ══════════════════════════════════════════════════════
+function openEditData(id){
+  const c = getCustomer(id); if(!c) return;
+  openActionSheet('Edit Data — '+c.nama, `
+    <div class="fg"><label class="flbl">Nama</label><input class="finp" id="ed-nama" value="${esc(c.nama)}"></div>
+    <div class="fg"><label class="flbl">No. WhatsApp</label><input class="finp" id="ed-wa" value="${esc(c.wa)}"></div>
+    <div class="fg"><label class="flbl">Sumber Lead</label>
+      <select class="finp" id="ed-sumber">
+        ${['Meta Ads','Instagram','Facebook','TikTok','Google','Referral','Pelanggan lama','Datang langsung','Lainnya'].map(s=>`<option ${s===c.sumber?'selected':''}>${s}</option>`).join('')}
+      </select></div>
+    <div class="fg"><label class="flbl">Kabupaten</label><input class="finp" id="ed-kab" value="${esc(c.kab)}"></div>
+    <div class="fg"><label class="flbl">Kecamatan</label><input class="finp" id="ed-kec" value="${esc(c.kec)}"></div>
+    <div class="fg"><label class="flbl">Alamat</label><input class="finp" id="ed-alamat" value="${esc(c.alamat)}"></div>
+    <button class="btn-primary" id="actionSubmitBtn" onclick="submitEditData('${esc(id)}')">Simpan</button>
+  `);
+}
+function submitEditData(id){
+  sendUpdate({
+    customer_id: id, jenis_aktivitas: 'Data diedit',
+    updates: {
+      nama: document.getElementById('ed-nama').value.trim(),
+      nomor_wa: document.getElementById('ed-wa').value.trim(),
+      sumber_lead: document.getElementById('ed-sumber').value,
+      kabupaten: document.getElementById('ed-kab').value.trim(),
+      kecamatan: document.getElementById('ed-kec').value.trim(),
+      alamat: document.getElementById('ed-alamat').value.trim(),
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// 2. TAMBAH NOTE
+// ══════════════════════════════════════════════════════
+function openAddNote(id){
+  const c = getCustomer(id); if(!c) return;
+  openActionSheet('Tambah Note — '+c.nama, `
+    <div class="fg">
+      <label class="flbl">Note Terbaru</label>
+      <textarea class="finp" id="an-note" rows="6" placeholder="Kebutuhan:&#10;Lokasi:&#10;Ukuran:&#10;Hasil komunikasi:&#10;Kendala:&#10;Tindak lanjut:">${esc(c.note)}</textarea>
+      <div class="fhint">Ini bakal jadi "Note Terakhir" yang baru. Catatan sebelumnya tetap kesimpen di Riwayat Aktivitas.</div>
+    </div>
+    <button class="btn-primary" id="actionSubmitBtn" onclick="submitAddNote('${esc(id)}')">Simpan Note</button>
+  `);
+}
+function submitAddNote(id){
+  const note = document.getElementById('an-note').value.trim();
+  sendUpdate({ customer_id:id, jenis_aktivitas:'Note ditambahkan', note_aktivitas:note, updates:{ note } });
+}
+
+// ══════════════════════════════════════════════════════
+// 3. UBAH PIPELINE & KATEGORI (manual, di luar alur FU)
+// ══════════════════════════════════════════════════════
+const KATEGORI_OPTIONS = {
+  'Awareness': ['Menunggu Dana','Menunggu Kabar','Respon','Tidak Respon','No Target'],
+  'Consideration': ['Hitung Detail','Validasi','Timing Belum Pas','Closing'],
+};
+function openChangePipeline(id){
+  const c = getCustomer(id); if(!c) return;
+  openActionSheet('Ubah Pipeline & Kategori — '+c.nama, `
+    <div class="fg">
+      <label class="flbl">Pipeline</label>
+      <div class="filter-chip-row" id="cp-pipeline">
+        ${['Awareness','Consideration'].map(p=>`<button type="button" class="filter-chip ${p===c.pipeline?'active':''}" data-val="${p}" onclick="cpSelectPipeline('${p}')">${p}</button>`).join('')}
+      </div>
+    </div>
+    <div class="fg">
+      <label class="flbl">Kategori</label>
+      <div class="filter-chip-row" id="cp-kategori"></div>
+    </div>
+    <div class="fg"><label class="flbl">Alasan Perubahan</label><textarea class="finp" id="cp-note" rows="3" placeholder="Wajib diisi, misal: konsumen sudah kasih kabar duluan"></textarea></div>
+    <button class="btn-primary" id="actionSubmitBtn" onclick="submitChangePipeline('${esc(id)}')">Simpan Perubahan</button>
+  `);
+  window._cpPipeline = c.pipeline; window._cpKategori = c.kategori;
+  renderCpKategori();
+}
+function cpSelectPipeline(p){
+  window._cpPipeline = p; window._cpKategori = '';
+  document.querySelectorAll('#cp-pipeline .filter-chip').forEach(b=>b.classList.toggle('active', b.dataset.val===p));
+  renderCpKategori();
+}
+function renderCpKategori(){
+  const opts = KATEGORI_OPTIONS[window._cpPipeline] || [];
+  document.getElementById('cp-kategori').innerHTML = opts.map(k=>
+    `<button type="button" class="filter-chip ${k===window._cpKategori?'active':''}" data-val="${k}" onclick="cpSelectKategori('${k}')">${k}</button>`).join('');
+}
+function cpSelectKategori(k){
+  window._cpKategori = k;
+  document.querySelectorAll('#cp-kategori .filter-chip').forEach(b=>b.classList.toggle('active', b.dataset.val===k));
+}
+function submitChangePipeline(id){
+  const c = getCustomer(id);
+  const note = document.getElementById('cp-note').value.trim();
+  if(!window._cpKategori){ toast('⚠️ Pilih kategori dulu.'); return; }
+  if(!note){ toast('⚠️ Alasan perubahan wajib diisi.'); return; }
+  const updates = { pipeline: window._cpPipeline, kategori: window._cpKategori };
+  let fuSelesaiId = null;
+  if(window._cpKategori==='No Target'){
+    updates.tahap_fu='Tidak Berlaku'; updates.tanggal_fu=''; updates.status_fu='Tidak Aktif';
+    fuSelesaiId = c.tahapFU && findPendingFU(id, c.tahapFU) ? findPendingFU(id, c.tahapFU).id : null;
+  } else if(window._cpKategori==='Closing'){
+    updates.tahap_fu='Selesai'; updates.tanggal_fu=''; updates.status_fu='Tidak Berlaku';
+    fuSelesaiId = c.tahapFU && findPendingFU(id, c.tahapFU) ? findPendingFU(id, c.tahapFU).id : null;
+  }
+  sendUpdate({
+    customer_id:id, jenis_aktivitas:'Pipeline/Kategori diubah manual',
+    note_aktivitas: note, hasil_aktivitas: window._cpPipeline+' — '+window._cpKategori,
+    updates, fu_selesai_id: fuSelesaiId
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// 4. SELESAIKAN FOLLOW-UP
+// ══════════════════════════════════════════════════════
+function openSelesaikanFU(id){
+  const c = getCustomer(id); if(!c) return;
+  openActionSheet('Selesaikan '+c.tahapFU+' — '+c.nama, `
+    <div class="fg"><label class="flbl">Hasil Komunikasi</label><textarea class="finp" id="sf-hasil" rows="3" placeholder="Apa yang terjadi di follow-up ini?"></textarea></div>
+    <div class="fg"><label class="flbl">Note Terbaru</label><textarea class="finp" id="sf-note" rows="3">${esc(c.note)}</textarea></div>
+    <div class="fg">
+      <label class="flbl">Closing sekarang?</label>
+      <div class="filter-chip-row">
+        <button type="button" class="filter-chip" id="sf-closing-ya" onclick="sfSetClosing(true)">Ya, Closing</button>
+        <button type="button" class="filter-chip active" id="sf-closing-tidak" onclick="sfSetClosing(false)">Belum</button>
+      </div>
+    </div>
+    <div class="fg" id="sf-kategori-wrap">
+      <label class="flbl">Kategori Terbaru</label>
+      <div class="filter-chip-row" id="sf-kategori"></div>
+    </div>
+    <div class="fhint" id="sf-next-hint" style="margin-bottom:14px"></div>
+    <button class="btn-primary" id="actionSubmitBtn" onclick="submitSelesaikanFU('${esc(id)}')">Simpan</button>
+  `);
+  window._sfClosing = false; window._sfPipeline = c.pipeline; window._sfKategori = c.kategori;
+  renderSfKategori();
+  updateSfHint(c);
+}
+function sfSetClosing(val){
+  window._sfClosing = val;
+  document.getElementById('sf-closing-ya').classList.toggle('active', val);
+  document.getElementById('sf-closing-tidak').classList.toggle('active', !val);
+  document.getElementById('sf-kategori-wrap').style.display = val ? 'none' : 'block';
+  updateSfHint(getCustomer(CURRENT_DETAIL_ID));
+}
+function renderSfKategori(){
+  const opts = KATEGORI_OPTIONS[window._sfPipeline] || [];
+  document.getElementById('sf-kategori').innerHTML = opts.filter(k=>k!=='Closing').map(k=>
+    `<button type="button" class="filter-chip ${k===window._sfKategori?'active':''}" data-val="${k}" onclick="sfSelectKategori('${k}')">${k}</button>`).join('');
+}
+function sfSelectKategori(k){
+  window._sfKategori = k;
+  document.querySelectorAll('#sf-kategori .filter-chip').forEach(b=>b.classList.toggle('active', b.dataset.val===k));
+  updateSfHint(getCustomer(CURRENT_DETAIL_ID));
+}
+function computeNextFU(c){
+  if(window._sfClosing) return { tahap:'Selesai', tanggal:'' };
+  if(window._sfKategori==='No Target') return { tahap:'Tidak Berlaku', tanggal:'' };
+  if(c.tahapFU==='Follow-up 1') return { tahap:'Follow-up 2', tanggal: addDaysStr(c.tglMasuk,3) };
+  if(c.tahapFU==='Follow-up 2') return { tahap:'Follow-up 3', tanggal: addDaysStr(c.tglMasuk,7) };
+  if(c.tahapFU==='Follow-up 3') return { tahap:'Arsip', tanggal: addMonthsStr(todayStr(),1) };
+  if(c.tahapFU==='Arsip') return { tahap:'Arsip', tanggal: addMonthsStr(todayStr(),1) };
+  return { tahap:'Selesai', tanggal:'' };
+}
+function updateSfHint(c){
+  if(!c) return;
+  const next = computeNextFU(c);
+  const hint = document.getElementById('sf-next-hint');
+  if(next.tahap==='Selesai') hint.textContent = '→ Konsumen ditandai Closing, follow-up berhenti.';
+  else if(next.tahap==='Tidak Berlaku') hint.textContent = '→ Konsumen ditandai No Target, follow-up dibatalkan.';
+  else if(c.tahapFU==='Follow-up 3') hint.textContent = `→ Masuk Arsip, follow-up berikutnya: ${fmtTglFull(next.tanggal)}.`;
+  else if(c.tahapFU==='Arsip') hint.textContent = `→ Tetap Arsip (FU ke-${(c.jmlArsip||0)+1}), follow-up berikutnya: ${fmtTglFull(next.tanggal)}.`;
+  else hint.textContent = `→ Lanjut ke ${next.tahap}, jadwal: ${fmtTglFull(next.tanggal)}.`;
+}
+function submitSelesaikanFU(id){
+  const c = getCustomer(id);
+  const hasil = document.getElementById('sf-hasil').value.trim();
+  const note = document.getElementById('sf-note').value.trim();
+  if(!window._sfClosing && !window._sfKategori){ toast('⚠️ Pilih kategori terbaru dulu.'); return; }
+  const next = computeNextFU(c);
+  const updates = { tahap_fu: next.tahap, tanggal_fu: next.tanggal };
+  if(window._sfClosing){ updates.kategori='Closing'; updates.status_fu='Tidak Berlaku'; }
+  else if(window._sfKategori==='No Target'){ updates.kategori='No Target'; updates.status_fu='Tidak Aktif'; }
+  else { updates.kategori = window._sfKategori; updates.status_fu = next.tanggal ? (next.tanggal<=todayStr()?'Hari Ini':'Akan Datang') : 'Tidak Berlaku'; }
+  if(next.tahap==='Arsip'){ updates.tanggal_masuk_arsip = c.tahapFU==='Arsip' ? c.tglArsip : todayStr(); updates.jumlah_fu_arsip = (c.jmlArsip||0)+1; }
+
+  const fuId = findPendingFU(id, c.tahapFU);
+  const payload = {
+    customer_id:id, jenis_aktivitas: c.tahapFU+' diselesaikan',
+    hasil_aktivitas: hasil, note_aktivitas: note, updates,
+    fu_selesai_id: fuId ? fuId.id : null,
+  };
+  if(next.tahap!=='Selesai' && next.tahap!=='Tidak Berlaku'){
+    payload.fu_baru = { tahap_fu: next.tahap, tanggal_jadwal: next.tanggal };
+  }
+  sendUpdate(payload);
+}
+
+// ══════════════════════════════════════════════════════
+// 5. TANDAI CLOSING (shortcut)
+// ══════════════════════════════════════════════════════
+function openTandaiClosing(id){
+  const c = getCustomer(id); if(!c) return;
+  openActionSheet('Tandai Closing — '+c.nama, `
+    <div class="fhint" style="margin-bottom:14px">Konsumen bakal langsung ditandai <b>Closing</b>, follow-up otomatis berhenti.</div>
+    <div class="fg"><label class="flbl">Note (opsional)</label><textarea class="finp" id="tc-note" rows="3" placeholder="Catatan closing, misal nominal & produk"></textarea></div>
+    <button class="btn-primary" id="actionSubmitBtn" onclick="submitTandaiClosing('${esc(id)}')">Tandai Closing</button>
+  `);
+}
+function submitTandaiClosing(id){
+  const c = getCustomer(id);
+  const note = document.getElementById('tc-note').value.trim();
+  const fuId = c.tahapFU && findPendingFU(id, c.tahapFU);
+  sendUpdate({
+    customer_id:id, jenis_aktivitas:'Ditandai Closing', note_aktivitas: note, hasil_aktivitas:'Closing',
+    updates: { kategori:'Closing', tahap_fu:'Selesai', tanggal_fu:'', status_fu:'Tidak Berlaku' },
+    fu_selesai_id: fuId ? fuId.id : null,
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// 6. TANDAI NO TARGET (shortcut)
+// ══════════════════════════════════════════════════════
+function openTandaiNoTarget(id){
+  const c = getCustomer(id); if(!c) return;
+  openActionSheet('Tandai No Target — '+c.nama, `
+    <div class="fg">
+      <label class="flbl">Alasan No Target</label>
+      <select class="finp" id="tn-alasan">
+        <option value="">— Pilih alasan —</option>
+        ${['Di luar area layanan','Hanya mencari material','Bukan kebutuhan Kumasindo','Salah nomor','Nomor tidak valid','Anggaran tidak sesuai','Permintaan tidak dilayani','Lainnya'].map(a=>`<option>${a}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label class="flbl">Note (opsional)</label><textarea class="finp" id="tn-note" rows="3"></textarea></div>
+    <button class="btn-primary" id="actionSubmitBtn" onclick="submitTandaiNoTarget('${esc(id)}')">Tandai No Target</button>
+  `);
+}
+function submitTandaiNoTarget(id){
+  const c = getCustomer(id);
+  const alasan = document.getElementById('tn-alasan').value;
+  const note = document.getElementById('tn-note').value.trim();
+  if(!alasan){ toast('⚠️ Pilih alasan No Target dulu.'); return; }
+  const fuId = c.tahapFU && findPendingFU(id, c.tahapFU);
+  sendUpdate({
+    customer_id:id, jenis_aktivitas:'Ditandai No Target', note_aktivitas: note, hasil_aktivitas: alasan,
+    updates: { kategori:'No Target', tahap_fu:'Tidak Berlaku', tanggal_fu:'', status_fu:'Tidak Aktif', alasan_no_target: alasan },
+    fu_selesai_id: fuId ? fuId.id : null,
+  });
+}
+
+
+// ── Konstanta tambahan (dari Tab 1: cloud backup draft; Tab 3: kanban groups) ──
+const CLOUD_URL_KEY='crm_cloud_url', CLOUD_TOKEN_KEY='crm_cloud_token', CLOUD_LAST_KEY='crm_cloud_last_sync';
+let _syncTimer=null;
+let dupCheckTimer=null;
+const PIPELINE_GROUPS_VIEW = {
+  'Awareness': ['Menunggu Dana','Menunggu Kabar','Respon','Tidak Respon','No Target'],
+  'Consideration': ['Hitung Detail','Validasi','Timing Belum Pas','Closing'],
+};
+
+// ══════════════════════════════════════════════════════
+// TAB 1 — Fungsi khusus Input Konsumen (form, cloud backup draft)
+// ══════════════════════════════════════════════════════
+function buildPayload(){
+  return {
+    action: 'create_customer',
+    token: CONFIG.token,
+    nama: document.getElementById('f-nama').value.trim(),
+    nomor_wa: document.getElementById('f-wa').value.trim(),
+    sumber_lead: document.getElementById('f-sumber').value,
+    kabupaten: document.getElementById('f-kabupaten').value.trim(),
+    kecamatan: document.getElementById('f-kecamatan').value.trim(),
+    alamat: document.getElementById('f-alamat').value.trim(),
+    pipeline: S.pipeline,
+    kategori: S.kategori,
+    tagging: S.tags.join(', '),
+    note: document.getElementById('f-note').value.trim(),
+    pic: document.getElementById('f-pic').value,
+    alasan_no_target: document.getElementById('f-alasan-no-target').value,
+    _localId: 'crm'+Date.now()+Math.random().toString(36).slice(2,6),
+  };
+}
+
+function checkAndRestoreOnBoot(){
+  const url=getCloudUrl();
+  if(!url) return;
+  const hasLocal = ls('crm_pending_drafts', []).length>0;
+  if(hasLocal){ resendPendingDrafts(); return; }
+  fetch(url+'?mode=backup&token='+encodeURIComponent(getCloudToken()))
+    .then(r=>r.json())
+    .then(res=>{
+      if(res.status!=='ok') return;
+      if(res.data && res.data.crm_pending_drafts && res.data.crm_pending_drafts.length){
+        if(confirm('Ada draft input yang belum kekirim tersimpan di cloud (tanggal '+new Date(res.timestamp).toLocaleString('id-ID')+').\n\nPulihkan & coba kirim ulang sekarang?')){
+          ss('crm_pending_drafts', res.data.crm_pending_drafts);
+          setCloudLastSync(res.timestamp);
+          resendPendingDrafts();
+        }
+      }
+    })
+    .catch(()=>{});
+}
+
+async function checkDuplicateWA(){
+  const box = document.getElementById('dupWarnBox');
+  const wa = document.getElementById('f-wa').value.trim();
+  box.innerHTML='';
+  S.dupFound = false;
+  if(!wa || !isConfigured()) return;
+  try{
+    const table = await gviz(CONFIG.sheet_id, CONFIG.sheet_konsumen, 'A2:D');
+    const target = normalizePhone(wa);
+    const rows = table.rows || [];
+    for(const row of rows){
+      const c = row.c || [];
+      const existingWa = normalizePhone(c[3]?c[3].v:'');
+      if(existingWa && existingWa===target){
+        const nama = c[2]?c[2].v:'—';
+        S.dupFound = true;
+        box.innerHTML = `<div class="dup-warn">⚠️ Nomor ini <b>sudah terdaftar</b> atas nama <b>${esc(nama)}</b>. Data akan bisa dicari nanti di tab Database Konsumen. Kalau ini emang orang yang sama, sebaiknya jangan input ulang — tunggu tab Database Konsumen buat edit data lama.</div>`;
+        break;
+      }
+    }
+  }catch(e){ /* diamkan — gak fatal kalau cek duplikat gagal */ }
+}
+
+function closeSettings(){
+  document.getElementById('settingsOverlay').classList.remove('show');
+}
+
+function getCloudLastSync(){ return localStorage.getItem(CLOUD_LAST_KEY) || ''; }
+
+function getCloudToken(){
+  const v=localStorage.getItem(CLOUD_TOKEN_KEY);
+  if(v) return v;
+  return (CONFIG.token && CONFIG.token.indexOf('GANTI_')!==0) ? CONFIG.token : '';
+}
+
+function getCloudUrl(){
+  const v=localStorage.getItem(CLOUD_URL_KEY);
+  if(v) return v;
+  return (CONFIG.apps_script_url && CONFIG.apps_script_url.indexOf('GANTI_')!==0) ? CONFIG.apps_script_url : '';
+}
+
+function getDeviceId(){
+  let id = localStorage.getItem('crm_device_id');
+  if(!id){ id='hp-'+Math.random().toString(36).slice(2,8); localStorage.setItem('crm_device_id', id); }
+  return id;
+}
+
+function loadSummary(){
+  if(!isConfigured() || !ALL_CUSTOMERS){
+    ['sInputHariIni','sFuHariIni','sFuTerlambat','sClosingHariIni'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.textContent='—';
+    });
+    return;
+  }
+  const today = todayStr();
+  let inputHariIni=0, closingHariIni=0;
+  ALL_CUSTOMERS.forEach(c=>{
+    if(c.tglMasuk===today) inputHariIni++;
+    if(c.tglMasuk===today && c.kategori==='Closing') closingHariIni++;
+  });
+  let fuHariIni=0, fuTerlambat=0;
+  (ALL_FU||[]).forEach(f=>{
+    if(f.tglDikerjakan) return;
+    if(f.tglJadwal===today) fuHariIni++;
+    else if(f.tglJadwal && f.tglJadwal<today) fuTerlambat++;
+  });
+  document.getElementById('sInputHariIni').textContent = inputHariIni;
+  document.getElementById('sFuHariIni').textContent = fuHariIni;
+  document.getElementById('sFuTerlambat').textContent = fuTerlambat;
+  document.getElementById('sClosingHariIni').textContent = closingHariIni;
+}
+
+function normalizePhone(s){ return String(s||'').replace(/\D/g,'').replace(/^0/,'62'); }
+
+function openSettings(){
+  document.getElementById('settingsOverlay').classList.add('show');
+  renderCloudStatus();
+}
+
+function populatePicSelect(){
+  const sel = document.getElementById('f-pic');
+  sel.innerHTML = CONFIG.pic_list.map(p=>`<option value="${p.name}">${p.name}</option>`).join('');
+  sel.value = S.pic.name;
+}
+
+function removePendingDraft(localId){
+  const drafts = ls('crm_pending_drafts', []);
+  ss('crm_pending_drafts', drafts.filter(d=>d._localId!==localId));
+  scheduleSync();
+}
+
+function renderCategoryOptions(){
+  if(!S.pipeline){ document.getElementById('kategoriRow').innerHTML=''; return; }
+  const opts = KATEGORI_OPTIONS[S.pipeline] || [];
+  document.getElementById('kategoriRow').innerHTML = opts.map(k=>
+    `<button type="button" class="btn-choice" data-val="${k}" onclick="selectKategori('${k}')">${k}</button>`
+  ).join('');
+}
+
+function renderCloudStatus(){
+  const box = document.getElementById('cloudStatusBox');
+  const embedded = CONFIG.apps_script_url.indexOf('GANTI_')!==0 && CONFIG.token.indexOf('GANTI_')!==0;
+  const last = getCloudLastSync();
+  const pending = ls('crm_pending_drafts', []).length;
+  let h='';
+  if(embedded){
+    h += '<div class="cloud-status ok">✅ Alamat backup sudah ketanam permanen di file app ini.</div>';
+  } else {
+    h += '<div class="cloud-status warn">⚠️ Cloud Backup belum diaktifkan di file ini.</div>';
+  }
+  h += `<div class="fhint" style="margin-bottom:12px">Sync terakhir: ${last?new Date(last).toLocaleString('id-ID'):'Belum pernah'} · Draft belum kekirim: <b>${pending}</b></div>`;
+  box.innerHTML = h;
+}
+
+async function resendPendingDrafts(){
+  const drafts = ls('crm_pending_drafts', []);
+  if(!drafts.length || !isConfigured()) return;
+  for(const d of drafts){
+    try{
+      const res = await fetch(CONFIG.apps_script_url,{
+        method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(d)
+      }).then(r=>r.json());
+      if(res.status==='ok') removePendingDraft(d._localId);
+    }catch(e){ /* biarin, coba lagi lain kali */ }
+  }
+}
+
+function resetForm(){
+  document.getElementById('crmForm').reset();
+  S.pipeline=''; S.kategori=''; S.tags=[];
+  document.querySelectorAll('.btn-choice').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tag-chip').forEach(c=>c.classList.remove('active'));
+  document.getElementById('kategoriWrap').style.display='none';
+  document.getElementById('alasanNoTargetWrap').style.display='none';
+  document.getElementById('dupWarnBox').innerHTML='';
+  populatePicSelect();
+}
+
+function restoreFromCloud(manual){
+  const url=getCloudUrl();
+  if(!url){ if(manual)toast('Cloud Backup belum aktif.'); return; }
+  fetch(url+'?mode=backup&token='+encodeURIComponent(getCloudToken()))
+    .then(r=>r.json())
+    .then(res=>{
+      if(res.status!=='ok'){ if(manual)toast('❌ '+(res.message||'Gagal ambil backup.')); return; }
+      const doApply=()=>{
+        if(res.data && res.data.crm_pending_drafts) ss('crm_pending_drafts', res.data.crm_pending_drafts);
+        setCloudLastSync(res.timestamp);
+        toast('✅ Draft dipulihkan dari cloud.');
+        renderCloudStatus();
+        resendPendingDrafts();
+      };
+      if(manual){
+        if(confirm('Timpa draft lokal dengan backup cloud tanggal '+new Date(res.timestamp).toLocaleString('id-ID')+'?')) doApply();
+      } else { doApply(); }
+    })
+    .catch(err=>{ if(manual) toast('❌ Gagal konek ke cloud: '+err); });
+}
+
+function savePendingDraft(payload){
+  const drafts = ls('crm_pending_drafts', []);
+  drafts.push(payload);
+  ss('crm_pending_drafts', drafts);
+  scheduleSync();
+}
+
+function scheduleSync(){
+  if(!getCloudUrl()) return;
+  if(_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(()=>syncToCloud(false), 3000);
+}
+
+function selectKategori(val){
+  S.kategori = val;
+  document.querySelectorAll('#kategoriRow .btn-choice').forEach(b=>{
+    b.classList.toggle('active', b.dataset.val===val);
+  });
+  document.getElementById('alasanNoTargetWrap').style.display = (val==='No Target') ? 'block' : 'none';
+}
+
+function selectPipeline(val){
+  S.pipeline = val;
+  S.kategori = ''; // reset kategori tiap ganti pipeline
+  document.querySelectorAll('#pipelineRow .btn-choice').forEach(b=>{
+    b.classList.toggle('active', b.dataset.val===val);
+  });
+  document.getElementById('kategoriWrap').style.display = 'block';
+  document.getElementById('alasanNoTargetWrap').style.display = 'none';
+  renderCategoryOptions();
+}
+
+function setCloudLastSync(ts){ localStorage.setItem(CLOUD_LAST_KEY, ts); }
+
+async function submitForm(){
+  if(!validateForm()) return;
+  if(S.dupFound && !confirm('Nomor ini udah terdaftar sebelumnya. Tetap lanjut input sebagai data baru?')) return;
+
+  const payload = buildPayload();
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Menyimpan...';
+
+  // Simpan draft lokal dulu (jaga-jaga kalau network gagal)
+  savePendingDraft(payload);
+
+  if(!isConfigured()){
+    btn.disabled = false;
+    btn.innerHTML = '💾 Simpan Konsumen';
+    toast('⚠️ Apps Script belum terhubung. Data tersimpan draft lokal.');
+    return;
+  }
+
+  try{
+    const res = await fetch(CONFIG.apps_script_url, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload),
+    }).then(r=>r.json());
+
+    btn.disabled = false;
+    btn.innerHTML = '💾 Simpan Konsumen';
+
+    if(res.status==='ok'){
+      removePendingDraft(payload._localId);
+      toast(`✅ ${payload.nama} tersimpan! ID: ${res.customer_id}${res.tahap_fu==='Follow-up 1' ? ' — FU1: '+res.tanggal_fu : ''}`, 4000);
+      resetForm();
+      loadAllData(false);
+    } else {
+      toast('❌ Gagal simpan: '+(res.message||'unknown error')+'. Draft tersimpan lokal.', 4000);
+    }
+  }catch(e){
+    btn.disabled = false;
+    btn.innerHTML = '💾 Simpan Konsumen';
+    toast('⚠️ Gagal konek ke server. Draft tersimpan lokal — coba kirim ulang dari Cloud Backup.', 4000);
+  }
+}
+
+function syncToCloud(manual){
+  const url=getCloudUrl();
+  if(!url){ if(manual)toast('Cloud Backup belum aktif.'); return; }
+  const drafts = ls('crm_pending_drafts', []);
+  const payload = { action:'backup_sync', token:getCloudToken(), device:getDeviceId(), data:{ crm_pending_drafts: drafts } };
+  fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+    .then(r=>r.json())
+    .then(res=>{
+      if(res.status==='ok'){ setCloudLastSync(new Date().toISOString()); if(manual){ toast('✅ Backup ke cloud berhasil.'); renderCloudStatus(); } }
+      else if(manual){ toast('❌ Gagal backup: '+(res.message||'unknown error')); }
+    })
+    .catch(err=>{ if(manual) toast('❌ Gagal konek ke cloud: '+err); });
+}
+
+function validateForm(){
+  const nama = document.getElementById('f-nama').value.trim();
+  const wa = document.getElementById('f-wa').value.trim();
+  const sumber = document.getElementById('f-sumber').value;
+  if(!nama){ toast('⚠️ Nama konsumen wajib diisi.'); return false; }
+  if(!wa){ toast('⚠️ Nomor WhatsApp wajib diisi.'); return false; }
+  if(!sumber){ toast('⚠️ Sumber lead wajib dipilih.'); return false; }
+  if(!S.pipeline){ toast('⚠️ Pipeline wajib dipilih.'); return false; }
+  if(!S.kategori){ toast('⚠️ Kategori wajib dipilih.'); return false; }
+  return true;
+}
+
+// ══════════════════════════════════════════════════════
+// TAB 3 — Fungsi khusus Kanban Board
+// ══════════════════════════════════════════════════════
+function daysLate(tglFU){
+  if(!tglFU) return null;
+  const d1 = new Date(tglFU+'T00:00:00'), d0 = new Date(todayStr()+'T00:00:00');
+  return Math.round((d0-d1)/86400000);
+}
+
+function kanbanCardHtml(c){
+  let fuLine = '';
+  if(c.tahapFU && c.tahapFU!=='Tidak Berlaku' && c.tahapFU!=='Selesai'){
+    const late = daysLate(c.tglFU);
+    const lateTxt = late>0 ? `Terlambat ${late}h` : (late===0?'Hari ini':fmtTglShort(c.tglFU));
+    fuLine = `<div class="kanban-card-fu${late>0?' late':''}">${esc(c.tahapFU)} · ${lateTxt}</div>`;
+  }
+  return `<div class="kanban-card" onclick="openDetail('${esc(c.id)}')">
+    <div class="kanban-card-name">${esc(c.nama)}</div>
+    ${fuLine}
+    <div class="kanban-card-foot">
+      <span>${esc(c.pic)}</span>
+      <button type="button" onclick="event.stopPropagation();openChangePipeline('${esc(c.id)}')" title="Pindahkan">🔀</button>
+    </div>
+  </div>`;
+}
+
+function renderBoard(){
+  document.getElementById('resultCountPipeline').textContent = ALL_CUSTOMERS.length+' konsumen di pipeline';
+  renderFuToday();
+  const el = document.getElementById('kanbanBoard');
+  let html = '';
+  Object.keys(PIPELINE_GROUPS_VIEW).forEach(pipeline=>{
+    html += `<div class="section-title" style="margin-top:6px">${pipeline}</div><div class="kanban-scroll">`;
+    PIPELINE_GROUPS_VIEW[pipeline].forEach(kategori=>{
+      const cards = ALL_CUSTOMERS.filter(c=>c.pipeline===pipeline && c.kategori===kategori);
+      html += `<div class="kanban-col">
+        <div class="kanban-col-head">${esc(kategori)}<span class="kanban-count">${cards.length}</span></div>
+        <div class="kanban-col-body">
+          ${cards.length ? cards.map(kanbanCardHtml).join('') : '<div class="kanban-empty">Kosong</div>'}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  el.innerHTML = html;
+}
+
+function renderFuToday(){
+  const today = todayStr();
+  const items = ALL_CUSTOMERS.filter(c=>['Follow-up 1','Follow-up 2','Follow-up 3','Arsip'].includes(c.tahapFU) && c.tglFU && c.tglFU<=today);
+  items.sort((a,b)=>a.tglFU.localeCompare(b.tglFU));
+  const el = document.getElementById('fuTodaySection');
+  if(!items.length){ el.innerHTML=''; return; }
+  el.innerHTML = `
+    <div class="section-title">📋 Follow-up Hari Ini &amp; Terlambat (${items.length})</div>
+    <div style="margin-bottom:20px">
+      ${items.map(c=>{
+        const late = daysLate(c.tglFU);
+        const lateTxt = late>0 ? `Terlambat ${late} hari` : 'Hari ini';
+        return `<div class="cust-card" onclick="openDetail('${esc(c.id)}')" style="border-left:3px solid ${late>0?'var(--red)':'var(--amb)'}">
+          <div class="cust-head"><div><div class="cust-name">${esc(c.nama)}</div><div class="cust-wa">📱 ${esc(c.wa)}</div></div></div>
+          <div class="cust-badges">
+            <span class="badge badge-pipeline">${esc(c.pipeline)}</span>
+            <span class="badge badge-kategori">${esc(c.kategori)}</span>
+            <span class="badge ${late>0?'badge-status-terlambat':'badge-status-hari'}">${esc(c.tahapFU)} · ${lateTxt}</span>
+          </div>
+          <div class="cust-foot">
+            <span>PIC: ${esc(c.pic)}</span>
+            <button type="button" onclick="event.stopPropagation();openSelesaikanFU('${esc(c.id)}')" style="background:var(--or);color:#fff;border:none;padding:6px 13px;border-radius:8px;font-size:10.5px;font-weight:700;cursor:pointer">Selesaikan</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════
+// NAVIGASI ANTAR TAB
+// ══════════════════════════════════════════════════════
+let ACTIVE_TAB = 'input';
+function goTo(tab){
+  ACTIVE_TAB = tab;
+  ['input','database','pipeline','rekap'].forEach(t=>{
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = (t===tab) ? 'block' : 'none';
+    const navBtn = document.getElementById('nav-'+t);
+    if(navBtn) navBtn.classList.toggle('active', t===tab);
+    const sideBtn = document.getElementById('side-'+t);
+    if(sideBtn) sideBtn.classList.toggle('active', t===tab);
+  });
+  window.scrollTo(0,0);
+}
+
+// ══════════════════════════════════════════════════════
+// TAB 4 — REKAP KINERJA
+// ══════════════════════════════════════════════════════
+let REKAP_FILTERS = { pic:[], pipeline:[], sumber:[], lokasi:[] };
+
+function populateRekapPicFilter(){
+  document.getElementById('rkFPic').innerHTML = CONFIG.pic_list.map(p=>
+    `<button type="button" class="filter-chip" data-val="${p.name}">${p.name}</button>`).join('');
+  // Lokasi (Kabupaten) — ambil dari data yang udah ke-load, kalau belum ada ya kosong dulu
+  wireRekapFilterChips();
+}
+function wireRekapFilterChips(){
+  document.querySelectorAll('#rekapFilterOverlay .filter-chip').forEach(chip=>{
+    chip.onclick = ()=>chip.classList.toggle('active');
+  });
+}
+function openRekapFilterSheet(){
+  // Isi ulang pilihan Kabupaten dari data yang ada
+  const kabs = [...new Set(ALL_CUSTOMERS.map(c=>c.kab).filter(Boolean))].sort();
+  document.getElementById('rkFLokasi').innerHTML = kabs.map(k=>
+    `<button type="button" class="filter-chip" data-val="${esc(k)}">${esc(k)}</button>`).join('');
+  wireRekapFilterChips();
+  // Restore state visual
+  Object.keys(REKAP_FILTERS).forEach(g=>{
+    document.querySelectorAll(`#rk${g.charAt(0).toUpperCase()+g.slice(1)==='Pic'?'FPic':''}`);
+  });
+  document.getElementById('rekapFilterOverlay').classList.add('show');
+}
+function closeRekapFilterSheet(){ document.getElementById('rekapFilterOverlay').classList.remove('show'); }
+function collectRekapGroup(containerId){
+  return Array.from(document.querySelectorAll('#'+containerId+' .filter-chip.active')).map(c=>c.dataset.val);
+}
+function applyRekapFiltersAndClose(){
+  REKAP_FILTERS = {
+    pic: collectRekapGroup('rkFPic'),
+    pipeline: collectRekapGroup('rkFPipeline'),
+    sumber: collectRekapGroup('rkFSumber'),
+    lokasi: collectRekapGroup('rkFLokasi'),
+  };
+  closeRekapFilterSheet();
+  renderRekap();
+}
+function clearRekapFilters(){
+  document.querySelectorAll('#rekapFilterOverlay .filter-chip.active').forEach(c=>c.classList.remove('active'));
+  REKAP_FILTERS = { pic:[], pipeline:[], sumber:[], lokasi:[] };
+  renderRekap();
+}
+function onRekapPeriodeChange(){
+  const v = document.getElementById('rkPeriode').value;
+  document.getElementById('rkCustomDateRow').style.display = (v==='custom') ? 'flex' : 'none';
+  if(v!=='custom') renderRekap();
+}
+function getRekapDateRange(){
+  const v = document.getElementById('rkPeriode').value;
+  const now = new Date(); now.setHours(0,0,0,0);
+  const today = todayStr();
+  if(v==='harian') return { from: today, to: today, label: 'Hari ini ('+fmtTglFull(today)+')' };
+  if(v==='mingguan'){
+    const from = new Date(now); from.setDate(from.getDate()-6);
+    return { from: dstr(from), to: today, label: '7 hari terakhir ('+fmtTglFull(dstr(from))+' – '+fmtTglFull(today)+')' };
+  }
+  if(v==='bulanan'){
+    const from = new Date(now.getFullYear(), now.getMonth(), 1);
+    return { from: dstr(from), to: today, label: 'Bulan ini ('+fmtTglFull(dstr(from))+' – '+fmtTglFull(today)+')' };
+  }
+  if(v==='tahunan'){
+    const from = new Date(now.getFullYear(), 0, 1);
+    return { from: dstr(from), to: today, label: 'Tahun ini ('+fmtTglFull(dstr(from))+' – '+fmtTglFull(today)+')' };
+  }
+  // custom
+  const from = document.getElementById('rkDateFrom').value || today;
+  const to = document.getElementById('rkDateTo').value || today;
+  return { from, to, label: 'Custom: '+fmtTglFull(from)+' – '+fmtTglFull(to) };
+}
+function dstr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+function rekapMatchesCustomer(c){
+  if(REKAP_FILTERS.pic.length && !REKAP_FILTERS.pic.includes(c.pic)) return false;
+  if(REKAP_FILTERS.pipeline.length && !REKAP_FILTERS.pipeline.includes(c.pipeline)) return false;
+  if(REKAP_FILTERS.sumber.length && !REKAP_FILTERS.sumber.includes(c.sumber)) return false;
+  if(REKAP_FILTERS.lokasi.length && !REKAP_FILTERS.lokasi.includes(c.kab)) return false;
+  return true;
+}
+
+function renderRekap(){
+  if(!ALL_CUSTOMERS){ return; }
+  const { from, to, label } = getRekapDateRange();
+  document.getElementById('rkPeriodLabel').textContent = label;
+
+  // chip aktif
+  const labels = { pic:'PIC', pipeline:'Pipeline', sumber:'Sumber', lokasi:'Lokasi' };
+  let chips = [];
+  Object.keys(REKAP_FILTERS).forEach(g=>{
+    (REKAP_FILTERS[g]||[]).forEach(v=>chips.push(`<div class="chip-filter">${labels[g]}: ${esc(v)}</div>`));
+  });
+  document.getElementById('rkActiveChips').innerHTML = chips.join('');
+  const totalActiveF = Object.values(REKAP_FILTERS).reduce((s,a)=>s+a.length,0);
+  const rkBadge = document.getElementById('rkFilterBadge');
+  if(totalActiveF>0){ rkBadge.style.display='flex'; rkBadge.textContent=totalActiveF; } else { rkBadge.style.display='none'; }
+
+  const custFiltered = ALL_CUSTOMERS.filter(rekapMatchesCustomer);
+  const leadMasukPeriode = custFiltered.filter(c=>c.tglMasuk>=from && c.tglMasuk<=to);
+
+  // ── A. RINGKASAN UTAMA ──
+  document.getElementById('rkTotalLead').textContent = leadMasukPeriode.length;
+  document.getElementById('rkTotalAwareness').textContent = custFiltered.filter(c=>c.pipeline==='Awareness').length;
+  document.getElementById('rkTotalConsideration').textContent = custFiltered.filter(c=>c.pipeline==='Consideration').length;
+  document.getElementById('rkTotalClosing').textContent = custFiltered.filter(c=>c.kategori==='Closing').length;
+  document.getElementById('rkTotalNoTarget').textContent = custFiltered.filter(c=>c.kategori==='No Target').length;
+  document.getElementById('rkTotalArsip').textContent = custFiltered.filter(c=>c.tahapFU==='Arsip').length;
+
+  const custIdsFiltered = new Set(custFiltered.map(c=>c.id));
+  const fuFiltered = ALL_FU.filter(f=>custIdsFiltered.has(f.customerId));
+  const fuInPeriode = fuFiltered.filter(f=>f.tglJadwal>=from && f.tglJadwal<=to);
+  const today = todayStr();
+  const fuHariIni = ALL_FU.filter(f=>custIdsFiltered.has(f.customerId) && f.tglJadwal===today && !f.tglDikerjakan).length;
+  const fuDikerjakan = fuInPeriode.filter(f=>f.tglDikerjakan).length;
+  const fuTepatWaktu = fuInPeriode.filter(f=>f.tglDikerjakan && f.tglDikerjakan<=f.tglJadwal).length;
+  const fuTerlambat = fuInPeriode.filter(f=> (f.tglDikerjakan && f.tglDikerjakan>f.tglJadwal) || (!f.tglDikerjakan && f.tglJadwal<today) ).length;
+  const fuBelum = fuInPeriode.filter(f=>!f.tglDikerjakan && f.tglJadwal>=today).length;
+  document.getElementById('rkFuHariIni').textContent = fuHariIni;
+  document.getElementById('rkFuDikerjakan').textContent = fuDikerjakan;
+  document.getElementById('rkFuTepatWaktu').textContent = fuTepatWaktu;
+  document.getElementById('rkFuTerlambat').textContent = fuTerlambat;
+  document.getElementById('rkFuBelum').textContent = fuBelum;
+
+  // ── B. REKAP PIPELINE (kondisi saat ini) ──
+  renderPipelineTable('rkPipelineAwareness', 'Awareness', ['Menunggu Dana','Menunggu Kabar','Respon','Tidak Respon','No Target'], custFiltered);
+  renderPipelineTable('rkPipelineConsideration', 'Consideration', ['Hitung Detail','Validasi','Timing Belum Pas','Closing'], custFiltered);
+
+  // ── C. REKAP PERPINDAHAN PIPELINE ──
+  const riwayatFiltered = (ALL_RIWAYAT||[]).filter(h=>custIdsFiltered.has(h.customerId) && h.tanggal.slice(0,10)>=from && h.tanggal.slice(0,10)<=to);
+  const moves = riwayatFiltered.filter(h=>h.pipelineLama && (h.pipelineLama!==h.pipelineBaru || h.kategoriLama!==h.kategoriBaru));
+  const moveCounts = {};
+  moves.forEach(m=>{
+    const key = `${m.pipelineLama} — ${m.kategoriLama}  →  ${m.pipelineBaru} — ${m.kategoriBaru}`;
+    moveCounts[key] = (moveCounts[key]||0)+1;
+  });
+  const moveKeys = Object.keys(moveCounts).sort((a,b)=>moveCounts[b]-moveCounts[a]);
+  document.getElementById('rkPerpindahan').innerHTML = moveKeys.length ? moveKeys.map(k=>
+    `<div class="detail-row"><span class="detail-row-label">${esc(k)}</span><span class="detail-row-val">${moveCounts[k]} konsumen</span></div>`
+  ).join('') : '<div class="fhint">Belum ada perpindahan pipeline/kategori di periode ini.</div>';
+
+  const awarenessToConsideration = moves.filter(m=>m.pipelineLama==='Awareness' && m.pipelineBaru==='Consideration').length;
+  const closingCount = moves.filter(m=>m.kategoriBaru==='Closing').length;
+  const convAC = leadMasukPeriode.length>0 ? (awarenessToConsideration/leadMasukPeriode.length*100).toFixed(1)+'%' : '—';
+  const convClosing = leadMasukPeriode.length>0 ? (closingCount/leadMasukPeriode.length*100).toFixed(1)+'%' : '—';
+  document.getElementById('rkConvAC').textContent = convAC;
+  document.getElementById('rkConvClosing').textContent = convClosing;
+
+  // ── D. REKAP FOLLOW-UP ──
+  const fuTable = document.getElementById('rkFollowUpTable');
+  const tahapList = ['Follow-up 1','Follow-up 2','Follow-up 3','Arsip'];
+  let dRows = '<tr><th>Tahap</th><th class="num">Dijadwalkan</th><th class="num">Dikerjakan</th><th class="num">Terlambat</th><th class="num">Belum</th></tr>';
+  tahapList.forEach(t=>{
+    const rows = fuInPeriode.filter(f=>f.tahapFU===t);
+    const dijadwalkan = rows.length;
+    const dikerjakan = rows.filter(f=>f.tglDikerjakan).length;
+    const terlambat = rows.filter(f=>(f.tglDikerjakan && f.tglDikerjakan>f.tglJadwal)||(!f.tglDikerjakan && f.tglJadwal<today)).length;
+    const belum = rows.filter(f=>!f.tglDikerjakan && f.tglJadwal>=today).length;
+    dRows += `<tr><td>${t}</td><td class="num">${dijadwalkan}</td><td class="num">${dikerjakan}</td><td class="num">${terlambat}</td><td class="num">${belum}</td></tr>`;
+  });
+  fuTable.innerHTML = dRows;
+
+  // ── E. REKAP KINERJA PIC ──
+  const picTable = document.getElementById('rkPicTable');
+  let eRows = '<tr><th>PIC</th><th class="num">Lead Masuk</th><th class="num">FU Dikerjakan</th><th class="num">Consideration</th><th class="num">Closing</th><th class="num">No Target</th></tr>';
+  CONFIG.pic_list.forEach(p=>{
+    const picLeads = leadMasukPeriode.filter(c=>c.pic===p.name);
+    const picFuDone = fuInPeriode.filter(f=>f.pic===p.name && f.tglDikerjakan).length;
+    const picConsid = custFiltered.filter(c=>c.pic===p.name && c.pipeline==='Consideration').length;
+    const picClosing = custFiltered.filter(c=>c.pic===p.name && c.kategori==='Closing').length;
+    const picNoTarget = custFiltered.filter(c=>c.pic===p.name && c.kategori==='No Target').length;
+    eRows += `<tr><td>${esc(p.name)}</td><td class="num">${picLeads.length}</td><td class="num">${picFuDone}</td><td class="num">${picConsid}</td><td class="num">${picClosing}</td><td class="num">${picNoTarget}</td></tr>`;
+  });
+  picTable.innerHTML = eRows;
+
+  // ── F. REKAP SUMBER LEAD ──
+  const sumberTable = document.getElementById('rkSumberTable');
+  const sumberList = [...new Set(leadMasukPeriode.map(c=>c.sumber).filter(Boolean))];
+  let fRows = '<tr><th>Sumber</th><th class="num">Lead</th><th class="num">Consideration</th><th class="num">Closing</th></tr>';
+  sumberList.sort((a,b)=>leadMasukPeriode.filter(c=>c.sumber===b).length - leadMasukPeriode.filter(c=>c.sumber===a).length)
+    .forEach(s=>{
+      const leads = leadMasukPeriode.filter(c=>c.sumber===s);
+      const consid = leads.filter(c=>c.pipeline==='Consideration').length;
+      const closing = leads.filter(c=>c.kategori==='Closing').length;
+      fRows += `<tr><td>${esc(s)}</td><td class="num">${leads.length}</td><td class="num">${consid}</td><td class="num">${closing}</td></tr>`;
+    });
+  sumberTable.innerHTML = sumberList.length ? fRows : '<tr><td class="fhint">Belum ada data.</td></tr>';
+
+  // ── G. REKAP ALASAN NO TARGET ──
+  const alasanTable = document.getElementById('rkAlasanTable');
+  const noTargetLeads = leadMasukPeriode.filter(c=>c.kategori==='No Target' && c.alasanNoTarget);
+  const alasanCounts = {};
+  noTargetLeads.forEach(c=>{ alasanCounts[c.alasanNoTarget] = (alasanCounts[c.alasanNoTarget]||0)+1; });
+  const alasanKeys = Object.keys(alasanCounts).sort((a,b)=>alasanCounts[b]-alasanCounts[a]);
+  let gRows = '<tr><th>Alasan</th><th class="num">Jumlah</th></tr>';
+  alasanKeys.forEach(a=>{ gRows += `<tr><td>${esc(a)}</td><td class="num">${alasanCounts[a]}</td></tr>`; });
+  alasanTable.innerHTML = alasanKeys.length ? gRows : '<tr><td class="fhint">Belum ada No Target dengan alasan tercatat di periode ini.</td></tr>';
+}
+
+function renderPipelineTable(elId, pipelineName, kategoriList, custFiltered){
+  const rows = kategoriList.map(k=>{
+    const n = custFiltered.filter(c=>c.pipeline===pipelineName && c.kategori===k).length;
+    return { k, n };
+  });
+  const total = rows.reduce((s,r)=>s+r.n,0);
+  let html = '<tr><th>Kategori</th><th class="num">Jumlah</th></tr>';
+  rows.forEach(r=>{ html += `<tr><td>${esc(r.k)}</td><td class="num">${r.n}</td></tr>`; });
+  html += `<tr class="total-row"><td>Total</td><td class="num">${total}</td></tr>`;
+  document.getElementById(elId).innerHTML = html;
+}
+
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+renderPicGrid();
+renderPinKeys();
+const savedSession = ls('crm_session', null);
+if(savedSession){
+  const pic = CONFIG.pic_list.find(p=>p.id===savedSession.pic_id);
+  if(pic){ S.pic = pic; enterMain(); }
+}
+
+// PWA — Service Worker statis
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(r){console.log('[SW] OK',r.scope);})
+      .catch(function(e){console.warn('[SW]',e);});
+  });
+}
+
+</script>
+</body>
+</html>
