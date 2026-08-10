@@ -903,14 +903,34 @@ function isConfigured(){
          CONFIG.apps_script_url && CONFIG.apps_script_url.indexOf('GANTI_')!==0;
 }
 function gv(cell){ return cell ? cell.v : ''; }
+// Google Sheets kadang otomatis mendeteksi teks tanggal jadi tipe Date asli,
+// dan gviz balikin format aneh "Date(2026,7,10)" (bulan 0-indexed) bukan
+// teks "2026-08-10" biasa. Fungsi ini nyeragamin dua-duanya jadi YYYY-MM-DD
+// (atau YYYY-MM-DDTHH:MM:SS kalau ada jamnya) — biar perbandingan tanggal
+// gak diam-diam gagal gara-gara format beda.
+function gvDate(cell){
+  const v = gv(cell);
+  if(v===null || v===undefined || v==='') return '';
+  const s = String(v);
+  const m = s.match(/^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?\)$/);
+  if(m){
+    const y=m[1], mo=String(parseInt(m[2],10)+1).padStart(2,'0'), d=String(parseInt(m[3],10)).padStart(2,'0');
+    if(m[4]!==undefined){
+      const h=String(m[4]).padStart(2,'0'), mi=String(m[5]).padStart(2,'0'), se=String(m[6]).padStart(2,'0');
+      return `${y}-${mo}-${d}T${h}:${mi}:${se}`;
+    }
+    return `${y}-${mo}-${d}`;
+  }
+  return s;
+}
 
 // Kolom Konsumen: 0 ID,1 TglMasuk,2 Nama,3 WA,4 Sumber,5 Kab,6 Kec,7 Alamat,
 // 8 Pipeline,9 Kategori,10 Tagging,11 TahapFU,12 TglFU,13 StatusFU(tersimpan),
 // 14 TglArsip,15 JmlArsip,16 Note,17 PIC,18 AlasanNoTarget,19 UpdateTerakhir
 function parseCustomerRow(c){
-  const tglFU = gv(c[12]) ? String(gv(c[12])) : '';
+  const tglFU = gv(c[12]) ? gvDate(c[12]) : '';
   return {
-    id: gv(c[0]), tglMasuk: String(gv(c[1])), nama: gv(c[2]), wa: String(gv(c[3])),
+    id: gv(c[0]), tglMasuk: gvDate(c[1]), nama: gv(c[2]), wa: String(gv(c[3])),
     sumber: gv(c[4]), kab: gv(c[5]), kec: gv(c[6]), alamat: gv(c[7]),
     pipeline: gv(c[8]), kategori: gv(c[9]), tagging: gv(c[10]),
     tahapFU: gv(c[11]), tglFU: tglFU, statusFU: computeStatusJadwal(tglFU, gv(c[11])),
@@ -945,12 +965,12 @@ async function loadAllData(manual){
     ALL_CUSTOMERS = (kT.rows||[]).map(r=>parseCustomerRow(r.c||[])).filter(c=>c.id);
     ALL_FU = (fT.rows||[]).map(r=>{
       const c = r.c||[];
-      return { id:gv(c[0]), customerId:gv(c[1]), tahapFU:gv(c[2]), tglJadwal:String(gv(c[3])),
-        tglDikerjakan:gv(c[4]), statusJadwal:gv(c[5]), hasil:gv(c[6]), note:gv(c[7]), pic:gv(c[8]) };
+      return { id:gv(c[0]), customerId:gv(c[1]), tahapFU:gv(c[2]), tglJadwal:gvDate(c[3]),
+        tglDikerjakan:gv(c[4])?gvDate(c[4]):'', statusJadwal:gv(c[5]), hasil:gv(c[6]), note:gv(c[7]), pic:gv(c[8]) };
     }).filter(f=>f.id);
     ALL_RIWAYAT = (rT.rows||[]).map(r=>{
       const c = r.c||[];
-      return { id:gv(c[0]), customerId:gv(c[1]), tanggal:gv(c[2]), jenis:gv(c[3]),
+      return { id:gv(c[0]), customerId:gv(c[1]), tanggal:gvDate(c[2]), jenis:gv(c[3]),
         pipelineLama:gv(c[4]), kategoriLama:gv(c[5]), pipelineBaru:gv(c[6]), kategoriBaru:gv(c[7]),
         tahapFU:gv(c[8]), hasil:gv(c[9]), note:gv(c[10]), pic:gv(c[11]) };
     }).filter(h=>h.id);
