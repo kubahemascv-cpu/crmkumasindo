@@ -813,7 +813,7 @@ function toast(msg, dur=2600){
   window._toastTimer = setTimeout(()=>el.classList.remove('show'), dur);
 }
 
-let S = { pic:null, pinBuffer:'' };
+let S = { pic:null, pinBuffer:'', pipeline:'', kategori:'', tags:[], dupChecked:false, dupFound:false };
 let ALL_CUSTOMERS = [];
 let ALL_FU = [];
 let ALL_RIWAYAT = [];
@@ -1711,6 +1711,25 @@ function selectKategori(val){
   });
   document.getElementById('alasanNoTargetWrap').style.display = (val==='No Target') ? 'block' : 'none';
 }
+
+// ── TAGGING (multi-select chips) — sempat ketinggalan pas digabung, ditambal balik ──
+document.addEventListener('click', function(e){
+  const chip = e.target.closest('.tag-chip');
+  if(!chip) return;
+  const val = chip.dataset.val;
+  chip.classList.toggle('active');
+  if(chip.classList.contains('active')){
+    if(!S.tags.includes(val)) S.tags.push(val);
+  } else {
+    S.tags = S.tags.filter(t=>t!==val);
+  }
+});
+
+// ── Cek nomor WA duplikat otomatis pas keluar dari field ──
+document.addEventListener('DOMContentLoaded', function(){
+  const waInput = document.getElementById('f-wa');
+  if(waInput) waInput.addEventListener('blur', checkDuplicateWA);
+});
 
 function selectPipeline(val){
   S.pipeline = val;
