@@ -314,6 +314,7 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
         </div>
       </div>
       <div class="topbar-r">
+        <button class="icon-btn" onclick="loadAllData(true)" title="Refresh">🔄</button>
         <button class="icon-btn" onclick="openSettings()" title="Cloud Backup">☁️</button>
         <button class="icon-btn" onclick="logout()" title="Keluar">⏻</button>
       </div>
@@ -960,6 +961,10 @@ async function loadAllData(manual){
     if(manual) toast('✅ Data diperbarui.');
   }catch(e){
     ['resultCountDb','resultCountPipeline'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='❌ Gagal memuat data: '+e.message;});
+    ['sInputHariIni','sFuHariIni','sFuTerlambat','sClosingHariIni'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.textContent='⚠️';
+    });
+    if(manual) toast('❌ Gagal memuat data: '+e.message, 4000);
   }
 }
 
@@ -1387,8 +1392,11 @@ function sfSelectKategori(k){
 function computeNextFU(c){
   if(window._sfClosing) return { tahap:'Selesai', tanggal:'' };
   if(window._sfKategori==='No Target') return { tahap:'Tidak Berlaku', tanggal:'' };
-  if(c.tahapFU==='Follow-up 1') return { tahap:'Follow-up 2', tanggal: addDaysStr(c.tglMasuk,3) };
-  if(c.tahapFU==='Follow-up 2') return { tahap:'Follow-up 3', tanggal: addDaysStr(c.tglMasuk,7) };
+  // Kalau tglMasuk gak valid (misal data lagi mid-refresh), pakai hari ini
+  // sebagai basis cadangan — biar gak pernah nghasilin "NaN-NaN-NaN".
+  const basis = /^\d{4}-\d{2}-\d{2}$/.test(c.tglMasuk) ? c.tglMasuk : todayStr();
+  if(c.tahapFU==='Follow-up 1') return { tahap:'Follow-up 2', tanggal: addDaysStr(basis,3) };
+  if(c.tahapFU==='Follow-up 2') return { tahap:'Follow-up 3', tanggal: addDaysStr(basis,7) };
   if(c.tahapFU==='Follow-up 3') return { tahap:'Arsip', tanggal: addMonthsStr(todayStr(),1) };
   if(c.tahapFU==='Arsip') return { tahap:'Arsip', tanggal: addMonthsStr(todayStr(),1) };
   return { tahap:'Selesai', tanggal:'' };
